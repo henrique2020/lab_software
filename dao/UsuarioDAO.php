@@ -1,6 +1,6 @@
 <?php
 
-include_once "E:/xampp/htdocs/lab_software/env.php";
+include_once "./../env.php";
 include_once ROOT_DB . "Database.php";
 include_once ROOT_MODEL . "Usuario.php";
 

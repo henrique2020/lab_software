@@ -1,5 +1,5 @@
 <?php
-include_once "E:/xampp/htdocs/lab_software/env.php";
+include_once "./../env.php";
 include_once ROOT_DB . "Conf.inc.php";
 
 /**
@@ -16,7 +16,7 @@ class Database {
 
     /**
      * Construtor da classe.
-     * Inicializa a conexão com o banco de dados usando os dados definidos em env.php.
+     * Inicializa a conexão com o banco de dados usando os dados definidos em env.php
      * Define o modo de erro do PDO para exceções.
      */
     public function __construct(){
