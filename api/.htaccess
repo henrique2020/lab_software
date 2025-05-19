@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Redireciona requisições para /api/index.php se não for arquivo físico (rotas)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/?(.*)$ api/index.php [QSA,L]

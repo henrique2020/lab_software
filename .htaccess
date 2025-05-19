@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Desativa o índice de diretórios
+Options -Indexes
+
+# Bloqueia qualquer acesso fora da /api
+RewriteCond %{REQUEST_URI} !^/lab_software/api
+RewriteRule ^ - [F]
+
+# Redireciona erros 403 para o index.php
+ErrorDocument 403 http://localhost/lab_software/api/
