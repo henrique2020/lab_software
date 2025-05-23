@@ -11,7 +11,7 @@ class EquipamentoModelo {
         public string $identificacao,
         public string $equipamento,
         public string $marca,
-        public string $critterio_aceitacao_calibracao,
+        public string $criterio_aceitacao_calibracao,
         public int $periodicidade_calibracao,
         public int $periodicidade_manutencao,
         public string $tipo, // 'Analógico' ou 'Digital'
@@ -22,7 +22,7 @@ class EquipamentoModelo {
         $this->identificacao                  = $identificacao;
         $this->equipamento                    = $equipamento;
         $this->marca                          = $marca;
-        $this->critterio_aceitacao_calibracao = $critterio_aceitacao_calibracao;
+        $this->criterio_aceitacao_calibracao = $criterio_aceitacao_calibracao;
         $this->periodicidade_calibracao       = $periodicidade_calibracao;
         $this->periodicidade_manutencao       = $periodicidade_manutencao;
         $this->tipo                           = $tipo;
@@ -36,7 +36,7 @@ class EquipamentoModelo {
             'identificacao'                  => $this->identificacao,
             'equipamento'                    => $this->equipamento,
             'marca'                          => $this->marca,
-            'critterio_aceitacao_calibracao' => $this->critterio_aceitacao_calibracao,
+            'criterio_aceitacao_calibracao' => $this->criterio_aceitacao_calibracao,
             'periodicidade_calibracao'       => $this->periodicidade_calibracao,
             'periodicidade_manutencao'       => $this->periodicidade_manutencao,
             'tipo'                           => $this->tipo,

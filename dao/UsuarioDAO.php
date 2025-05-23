@@ -12,27 +12,29 @@ class UsuarioDAO {
 
     // Inserir novo usuário
     public function inserir(Usuario $usuario) : int {
-        $sql = "INSERT INTO usuario (nome, email, tipo, id_laboratorio)
-                VALUES (:nome, :email, :tipo, :id_laboratorio)";
+        $sql = "INSERT INTO usuario (nome, email, senha, admin, id_laboratorio)
+                VALUES (:nome, :email, :senha, :admin, :id_laboratorio)";
 
         return $this->db->insert($sql, [
             ':nome' => $usuario->nome,
             ':email' => $usuario->email,
-            ':tipo' => $usuario->tipo,
+            ':senha' => $usuario->senha,
+            ':admin' => $usuario->admin,
             ':id_laboratorio' => $usuario->id_laboratorio,
         ]);
     }
 
     // Atualizar usuário
     public function atualizar(Usuario $usuario) : int {
-        $sql = "UPDATE usuario SET nome = :nome, email = :email, tipo = :tipo,
-                id_laboratorio = :id_laboratorio WHERE id = :id";
+        $sql = "UPDATE usuario SET nome = :nome, email = :email, senha = :senha, admin = :admin, id_laboratorio = :id_laboratorio 
+                WHERE id = :id";
 
         return $this->db->update($sql, [
             ':id' => $usuario->id,
             ':nome' => $usuario->nome,
             ':email' => $usuario->email,
-            ':tipo' => $usuario->tipo,
+            ':senha' => $usuario->senha,
+            ':admin' => $usuario->admin,
             ':id_laboratorio' => $usuario->id_laboratorio,
         ]);
     }
@@ -59,6 +61,13 @@ class UsuarioDAO {
     public function buscarPorId(int $id) : ?Usuario {
         $sql = "SELECT * FROM usuario WHERE id = :id";
         $resultados = $this->db->select($sql, [':id' => $id]);
+
+        return !empty($resultados) ? new Usuario(...$resultados[0]) : null;
+    }
+
+    public function buscarPorEmail(string $email) : ?Usuario {
+        $sql = "SELECT * FROM usuario WHERE email = :email";
+        $resultados = $this->db->select($sql, [':email' => $email]);
 
         return !empty($resultados) ? new Usuario(...$resultados[0]) : null;
     }

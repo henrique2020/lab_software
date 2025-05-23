@@ -15,10 +15,10 @@ class EquipamentoModeloDAO {
 
     public function inserir(EquipamentoModelo $modelo): int {
         $sql = "INSERT INTO equipamento_modelo 
-            (numero_patrimonio, identificacao, equipamento, marca, critterio_aceitacao_calibracao, 
+            (numero_patrimonio, identificacao, equipamento, marca, criterio_aceitacao_calibracao, 
              periodicidade_calibracao, periodicidade_manutencao, tipo, id_categoria)
             VALUES 
-            (:numero_patrimonio, :identificacao, :equipamento, :marca, :critterio, 
+            (:numero_patrimonio, :identificacao, :equipamento, :marca, :criterio, 
              :periodicidade_calibracao, :periodicidade_manutencao, :tipo, :id_categoria)";
 
         return $this->db->insert($sql, [
@@ -26,7 +26,7 @@ class EquipamentoModeloDAO {
             ':identificacao'             => $modelo->identificacao,
             ':equipamento'               => $modelo->equipamento,
             ':marca'                     => $modelo->marca,
-            ':critterio'                 => $modelo->critterio_aceitacao_calibracao,
+            ':criterio'                  => $modelo->criterio_aceitacao_calibracao,
             ':periodicidade_calibracao'  => $modelo->periodicidade_calibracao,
             ':periodicidade_manutencao'  => $modelo->periodicidade_manutencao,
             ':tipo'                      => $modelo->tipo,
@@ -36,16 +36,16 @@ class EquipamentoModeloDAO {
 
     public function atualizar(EquipamentoModelo $modelo): int {
         $sql = "UPDATE equipamento_modelo SET
-            numero_patrimonio = :numero_patrimonio,
-            identificacao = :identificacao,
-            equipamento = :equipamento,
-            marca = :marca,
-            critterio_aceitacao_calibracao = :critterio,
-            periodicidade_calibracao = :periodicidade_calibracao,
-            periodicidade_manutencao = :periodicidade_manutencao,
-            tipo = :tipo,
-            id_categoria = :id_categoria
-            WHERE id = :id";
+                    numero_patrimonio = :numero_patrimonio,
+                    identificacao = :identificacao,
+                    equipamento = :equipamento,
+                    marca = :marca,
+                    criterio_aceitacao_calibracao = :criterio,
+                    periodicidade_calibracao = :periodicidade_calibracao,
+                    periodicidade_manutencao = :periodicidade_manutencao,
+                    tipo = :tipo,
+                    id_categoria = :id_categoria
+                WHERE id = :id";
 
         return $this->db->update($sql, [
             ':id'                        => $modelo->id,
@@ -53,7 +53,7 @@ class EquipamentoModeloDAO {
             ':identificacao'             => $modelo->identificacao,
             ':equipamento'               => $modelo->equipamento,
             ':marca'                     => $modelo->marca,
-            ':critterio'                 => $modelo->critterio_aceitacao_calibracao,
+            ':criterio'                  => $modelo->criterio_aceitacao_calibracao,
             ':periodicidade_calibracao'  => $modelo->periodicidade_calibracao,
             ':periodicidade_manutencao'  => $modelo->periodicidade_manutencao,
             ':tipo'                      => $modelo->tipo,

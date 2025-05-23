@@ -27,6 +27,3 @@ function verificarTokenBearer(): void {
         exit;
     }
 }
-
-// Executa o middleware no início da requisição
-verificarTokenBearer();

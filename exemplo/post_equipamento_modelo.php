@@ -16,7 +16,7 @@ curl_setopt_array($curl, array(
     "identificacao": "Multímetro",
     "equipamento": "Multímetro Digital",
     "marca": "Fluke",
-    "critterio_aceitacao_calibracao": "±2%",
+    "criterio_aceitacao_calibracao": "±2%",
     "periodicidade_calibracao": "12",
     "periodicidade_manutencao": "24",
     "tipo": "Analógico",

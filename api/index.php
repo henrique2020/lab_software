@@ -5,6 +5,7 @@ header('Content-type: application/json');
 $N = 1;
 function exibir_json($info){
     echo json_encode($info, JSON_PRETTY_PRINT);
+    exit;
 }
 
 /**

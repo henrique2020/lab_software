@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Tempo de geração: 19-Maio-2025 às 17:27
--- Versão do servidor: 10.4.25-MariaDB
--- versão do PHP: 8.1.10
+-- Host: 127.0.0.1
+-- Tempo de geração: 23/05/2025 às 01:34
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -26,25 +26,30 @@ USE `lab_software`;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categoria`
+-- Estrutura para tabela `categoria`
 --
 
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `categoria`
+-- Despejando dados para a tabela `categoria`
 --
 
 INSERT INTO `categoria` (`id`, `nome`) VALUES
-(1, 'Saúde');
+(1, 'Vidraria'),
+(2, 'Estufa'),
+(3, 'Capela'),
+(4, 'Balança'),
+(5, 'Prensa'),
+(6, 'Termometro');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `certificado`
+-- Estrutura para tabela `certificado`
 --
 
 CREATE TABLE `certificado` (
@@ -53,12 +58,12 @@ CREATE TABLE `certificado` (
   `data` date NOT NULL,
   `orgao_expedidor` text NOT NULL,
   `arquivo` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `equipamento`
+-- Estrutura para tabela `equipamento`
 --
 
 CREATE TABLE `equipamento` (
@@ -68,12 +73,12 @@ CREATE TABLE `equipamento` (
   `id_modelo` int(11) NOT NULL,
   `id_laboratorio` int(11) NOT NULL,
   `numero` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `equipamento_modelo`
+-- Estrutura para tabela `equipamento_modelo`
 --
 
 CREATE TABLE `equipamento_modelo` (
@@ -82,18 +87,18 @@ CREATE TABLE `equipamento_modelo` (
   `identificacao` text NOT NULL,
   `equipamento` text NOT NULL,
   `marca` text NOT NULL,
-  `critterio_aceitacao_calibracao` text NOT NULL,
+  `criterio_aceitacao_calibracao` text NOT NULL,
   `periodicidade_calibracao` int(11) NOT NULL,
   `periodicidade_manutencao` int(11) NOT NULL,
   `tipo` enum('Analógico','Digital') NOT NULL,
   `id_categoria` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `equipamento_modelo`
+-- Despejando dados para a tabela `equipamento_modelo`
 --
 
-INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `critterio_aceitacao_calibracao`, `periodicidade_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
+INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
 (1, 203673, 'CDI39X00', 'Computador - i3-9X00', 'Dell', 'Tempertatura X com clock em 3,1GHz', 365, 90, 'Digital', NULL),
 (2, 151320, 'ADE 01', 'Dispositivo de corte em grade – 1 mm entre cortes', 'Medtec', 'distância entre cortes de 1mm', 180, 30, 'Digital', NULL),
 (3, 12345, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'Analógico', NULL);
@@ -101,7 +106,7 @@ INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `e
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `evento`
+-- Estrutura para tabela `evento`
 --
 
 CREATE TABLE `evento` (
@@ -113,12 +118,12 @@ CREATE TABLE `evento` (
   `status` enum('Aprovado','Recusado') NOT NULL,
   `custo` decimal(10,2) DEFAULT NULL,
   `id_certificado` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `laboratorio`
+-- Estrutura para tabela `laboratorio`
 --
 
 CREATE TABLE `laboratorio` (
@@ -127,10 +132,10 @@ CREATE TABLE `laboratorio` (
   `sigla` varchar(10) NOT NULL,
   `bloco` varchar(5) NOT NULL,
   `sala` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `laboratorio`
+-- Despejando dados para a tabela `laboratorio`
 --
 
 INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
@@ -141,44 +146,48 @@ INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuario`
+-- Estrutura para tabela `usuario`
 --
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `tipo` enum('Administrador','Responsavel') NOT NULL,
-  `id_laboratorio` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `senha` text NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `id_laboratorio` int(11) DEFAULT NULL,
+  `data_acesso` datetime DEFAULT NULL,
+  `token` text DEFAULT NULL,
+  `data_expiração` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `usuario`
+-- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nome`, `email`, `tipo`, `id_laboratorio`) VALUES
-(1, 'Maria Souza', 'maria@email.com', 'Responsavel', NULL),
-(2, 'Jorge Aguia', 'ja@email.com', 'Administrador', NULL),
-(3, 'Henrique', 'hbh@email.com', 'Administrador', 1);
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiração`) VALUES
+(1, 'Maria Souza', 'maria@email.com', '', 0, NULL, NULL, NULL, NULL),
+(2, 'Jorge Aguia', 'ja@email.com', '', 1, 2, NULL, NULL, NULL),
+(3, 'Henrique', 'hbh@email.com', '', 1, 1, NULL, NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `categoria`
+-- Índices de tabela `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `certificado`
+-- Índices de tabela `certificado`
 --
 ALTER TABLE `certificado`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `equipamento`
+-- Índices de tabela `equipamento`
 --
 ALTER TABLE `equipamento`
   ADD PRIMARY KEY (`id`),
@@ -187,7 +196,7 @@ ALTER TABLE `equipamento`
   ADD KEY `localizacao` (`id_laboratorio`);
 
 --
--- Índices para tabela `equipamento_modelo`
+-- Índices de tabela `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
   ADD PRIMARY KEY (`id`),
@@ -195,7 +204,7 @@ ALTER TABLE `equipamento_modelo`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices para tabela `evento`
+-- Índices de tabela `evento`
 --
 ALTER TABLE `evento`
   ADD PRIMARY KEY (`id`),
@@ -203,14 +212,14 @@ ALTER TABLE `evento`
   ADD KEY `evento_ibfk_1` (`id_equipamento`);
 
 --
--- Índices para tabela `laboratorio`
+-- Índices de tabela `laboratorio`
 --
 ALTER TABLE `laboratorio`
   ADD PRIMARY KEY (`id`),
   ADD KEY `localizacao` (`bloco`);
 
 --
--- Índices para tabela `usuario`
+-- Índices de tabela `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
@@ -218,14 +227,14 @@ ALTER TABLE `usuario`
   ADD KEY `id_bloco` (`id_laboratorio`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `certificado`
@@ -264,31 +273,31 @@ ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `equipamento`
+-- Restrições para tabelas `equipamento`
 --
 ALTER TABLE `equipamento`
   ADD CONSTRAINT `equipamento_ibfk_1` FOREIGN KEY (`id_modelo`) REFERENCES `equipamento_modelo` (`id`),
   ADD CONSTRAINT `equipamento_ibfk_2` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
 
 --
--- Limitadores para a tabela `equipamento_modelo`
+-- Restrições para tabelas `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
   ADD CONSTRAINT `equipamento_modelo_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
 
 --
--- Limitadores para a tabela `evento`
+-- Restrições para tabelas `evento`
 --
 ALTER TABLE `evento`
   ADD CONSTRAINT `evento_ibfk_1` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`),
   ADD CONSTRAINT `evento_ibfk_2` FOREIGN KEY (`id_certificado`) REFERENCES `certificado` (`id`);
 
 --
--- Limitadores para a tabela `usuario`
+-- Restrições para tabelas `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
