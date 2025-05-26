@@ -20,8 +20,3 @@ class Usuario:
 
     def validate_pass(self, senha: str) -> bool:
         return bcrypt.checkpw(senha.encode(), self.senha.encode())
-
-    def generate_token(self):
-        self.data_acesso = datetime.now()
-        self.data_expiracao = self.data_acesso + timedelta(hours=6)
-        self.token = f"Bearer {self.nome}-{self.id}-{self.data_expiracao.strftime('%Y%m%d%H%M%S')}"

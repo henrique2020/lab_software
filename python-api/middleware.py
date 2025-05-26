@@ -1,13 +1,31 @@
+import os
 from fastapi import Request, HTTPException
+from datetime import datetime, timedelta
+from jose import JWTError, jwt
+from dotenv import load_dotenv
+import re
 
-def verificar_token_bearer(request: Request):
-    auth_header = request.headers.get("Authorization")
-    if not auth_header:
-        raise HTTPException(status_code=401, detail="Token não informado")
-    
-    if not auth_header.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Formato de token inválido")
-    
-    token = auth_header.split(" ")[1]
-    if token != "chave-super-secreta":
-        raise HTTPException(status_code=403, detail="Token inválido")
+load_dotenv()
+
+# Configurações
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+EXPIRE_HOURS = int(os.getenv("TOKEN_EXPIRATION_HOURS", 1))
+
+def criar_token(dados: dict) -> str:
+    agora = datetime.now()
+    expiracao = agora + timedelta(hours=EXPIRE_HOURS)
+    dados.update({"exp": expiracao})
+    token = jwt.encode(dados, SECRET_KEY, algorithm=ALGORITHM)
+    return token, agora, expiracao, verificar_token(token)
+
+def verificar_token(token: str) -> dict:
+    match = re.match(r"^Bearer\s+(.+)$", str(token))
+    if match:
+        token = match.group(1)
+        
+    try:
+        dados = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return dados
+    except:
+        raise HTTPException(status_code=403, detail="Token inválido ou expirado", )

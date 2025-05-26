@@ -58,11 +58,11 @@ class EquipamentoModeloDAO:
         }
         return self.db.update(sql, params)
 
-    def deletar(self, id_: int) -> int:
-        return self.db.delete("DELETE FROM equipamento_modelo WHERE id = %(id)s", {'id': id_})
+    def deletar(self, id: int) -> int:
+        return self.db.delete("DELETE FROM equipamento_modelo WHERE id = %(id)s", {'id': id})
 
-    def buscar_por_id(self, id_: int) -> EquipamentoModelo | None:
-        resultado = self.db.select("SELECT * FROM equipamento_modelo WHERE id = %(id)s", {'id': id_})
+    def buscar_por_id(self, id: int) -> EquipamentoModelo | None:
+        resultado = self.db.select("SELECT * FROM equipamento_modelo WHERE id = %(id)s", {'id': id})
         return EquipamentoModelo(**resultado[0]) if resultado else None
 
     def listar_todos(self) -> list[EquipamentoModelo]:
