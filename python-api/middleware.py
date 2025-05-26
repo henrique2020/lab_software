@@ -1,5 +1,5 @@
 import os
-from fastapi import Request, HTTPException
+from fastapi import HTTPException
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from dotenv import load_dotenv
@@ -27,5 +27,7 @@ def verificar_token(token: str) -> dict:
     try:
         dados = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return dados
+    except JWTError:
+        raise HTTPException(status_code=403, detail="Token inválido ou expirado")
     except:
-        raise HTTPException(status_code=403, detail="Token inválido ou expirado", )
+        raise HTTPException(status_code=403, detail="Houve um erro interno, tente novamente mais tarde")

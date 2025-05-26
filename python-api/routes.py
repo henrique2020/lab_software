@@ -1,11 +1,8 @@
 from fastapi import APIRouter, Request, HTTPException
 import middleware
-from dao.UsuarioDAO import UsuarioDAO
-from dao.LaboratorioDAO import LaboratorioDAO
-from dao.EquipamentoModeloDAO import EquipamentoModeloDAO
-from model.Usuario import Usuario
-from model.Laboratorio import Laboratorio
-from model.EquipamentoModelo import EquipamentoModelo
+from dao import EquipamentoModeloDAO, LaboratorioDAO, UsuarioDAO
+from model import EquipamentoModelo, Laboratorio, Usuario
+
 
 router = APIRouter()
 
