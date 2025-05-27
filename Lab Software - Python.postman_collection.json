@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "8e5e7955-9c46-48d1-8070-54822705f6b7",
+		"name": "Lab Software - Python",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17637127"
+	},
+	"item": [
+		{
+			"name": "GET - Categoria (ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/categoria/2",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"categoria",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Categorias",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/categorias",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Equipamento (ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/equipamento/1",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"equipamento",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Equipamentos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/equipamentos",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"equipamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Equipamento (Modelo) (ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/equipamento/1",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"equipamento",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Equipamentos (Modelo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/equipamentos",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"equipamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Laboratório (ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/laboratorio/1",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"laboratorio",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Laboratórios",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/laboratorios",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"laboratorios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Usuário (ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/usuario/1",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"usuario",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Usuários",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}api/usuarios",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"mdt@email.com\",\r\n    \"senha\": \"teste2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/login",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Categoria",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Saúde\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/categoria",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"categoria"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Equipamento (Modelo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero_patrimonio\": 123456,\r\n    \"identificacao\": \"Multímetro\",\r\n    \"equipamento\": \"Multímetro Digital\",\r\n    \"marca\": \"Fluke\",\r\n    \"criterio_aceitacao_calibracao\": \"±2%\",\r\n    \"periodicidade_calibracao\": \"12\",\r\n    \"periodicidade_manutencao\": \"24\",\r\n    \"tipo\": \"A\",\r\n    \"id_categoria\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/modelo",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"modelo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Laboratório",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Maltes LTDA\",\r\n    \"sigla\": \"MALTE\",\r\n    \"bloco\": \"71\",\r\n    \"sala\": 101\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/laboratorio",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"laboratorio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Usuário",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Marial de Tal\",\r\n    \"email\": \"mdt@email.com\",\r\n    \"senha\": \"teste2\",\r\n    \"admin\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/usuario",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Equipamento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tag\": \"895123\",\r\n    \"numero_patrimonio\": \"8945214\",\r\n    \"id_modelo\": \"4\",\r\n    \"id_laboratorio\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}api/equipamento",
+					"host": [
+						"{{api}}api"
+					],
+					"path": [
+						"equipamento"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
