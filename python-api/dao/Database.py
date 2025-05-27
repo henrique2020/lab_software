@@ -12,7 +12,8 @@ class Database:
             host=os.getenv("DB_HOST"),
             user=os.getenv("DB_USUARIO"),
             password=os.getenv("DB_SENHA"),
-            database=os.getenv("DB_BANCO")
+            database=os.getenv("DB_BANCO"),
+            port=3307
         )
         self.cursor = self.connection.cursor(dictionary=True)
 

@@ -17,7 +17,7 @@ def criar_token(dados: dict) -> str:
     expiracao = agora + timedelta(hours=EXPIRE_HOURS)
     dados.update({"exp": expiracao})
     token = jwt.encode(dados, SECRET_KEY, algorithm=ALGORITHM)
-    return token, agora, expiracao, verificar_token(token)
+    return token, agora, expiracao
 
 def verificar_token(token: str) -> dict:
     match = re.match(r"^Bearer\s+(.+)$", str(token))

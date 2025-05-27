@@ -1,9 +1,13 @@
-from .Usuario import Usuario
-from .Laboratorio import Laboratorio
+from .Categoria import Categoria
+from .Equipamento import Equipamento
 from .EquipamentoModelo import EquipamentoModelo
+from .Laboratorio import Laboratorio
+from .Usuario import Usuario
 
 __all__ = [
-    "Usuario",
+    "Categoria",
+    "Equipamento",
+    "EquipamentoModelo",
     "Laboratorio",
-    "EquipamentoModelo"
+    "Usuario"
 ]

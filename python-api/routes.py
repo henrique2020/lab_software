@@ -1,14 +1,15 @@
 from fastapi import APIRouter, Request, HTTPException
 import middleware
-from dao import EquipamentoModeloDAO, LaboratorioDAO, UsuarioDAO
-from model import EquipamentoModelo, Laboratorio, Usuario
-
+from dao import *
+from model import *
 
 router = APIRouter()
 
-udao = UsuarioDAO()
-ldao = LaboratorioDAO()
+cdao = CategoriaDAO()
+edao = EquipamentoDAO()
 emdao = EquipamentoModeloDAO()
+ldao = LaboratorioDAO()
+udao = UsuarioDAO()
 
 @router.post("/login")
 async def login(request: Request):
@@ -16,25 +17,90 @@ async def login(request: Request):
     dados = {k: v.strip() if isinstance(v, str) else v for k, v in dados.items()}
     usuario = udao.buscar_por_email(dados['email'])
     if usuario and usuario.validate_pass(dados['senha']):
-        usuario.token, usuario.data_acesso, usuario.data_expiracao, a = middleware.criar_token({
+        usuario.token, usuario.data_acesso, usuario.data_expiracao = middleware.criar_token({
+            "id": usuario.id,
             "nome": usuario.nome, 
             "admin": usuario.admin, 
             "laboratorio": usuario.id_laboratorio
         })
         
         if udao.atualizar_token(usuario):
-            return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": True, "token": usuario.token}
+            return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": True, "token": usuario.token, 'payload': middleware.verificar_token(usuario.token)}
     
     return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": False, "message": "Usuário e/ou senha incorreto"}
+
+
+# Categoria
+@router.get("/categoria/{id}")
+def buscar_categoria(id: int):
+    return {"API": {"URI": f"/api/categoria/{id}", "METHOD": "GET"}, "DATA": cdao.buscar_por_id(id)}
+
+@router.get("/categorias")
+def listar_categorias():
+    return {"API": {"URI": "/api/categorias", "METHOD": "GET"}, "DATA": cdao.listar_todos()}
+
+@router.post("/categoria")
+async def inserir_categoria(request: Request):
+    dados = await request.json()
+    categoria = Categoria(None, **dados)
+    
+    return {"success": bool(cdao.inserir(categoria))}
+
+
+# Equipamento
+@router.get("/equipamento/{id}")
+def buscar_equipamento(request: Request, id: int):
+    if request.state.token['admin']:
+        dados = edao.buscar_por_id(id)
+    else:
+        dados = edao.buscar_por_id_laboratorio(id, request.state.token['laboratorio'])
+        if not dados:
+            return HTTPException(404, "Permissões insuficiente")
+
+    return {"API": {"URI": f"/api/equipamento/{id}", "METHOD": "GET"}, "DATA": dados}
 
 @router.get("/equipamentos")
 def listar_equipamentos(request: Request):
     if request.state.token['admin']: 
-        dados = emdao.listar_todos()
+        dados = edao.listar_todos()
     else:
-        dados = emdao.listar_por_laboratorio(request.state.token['laboratorio'])
+        dados = edao.listar_por_laboratorio(request.state.token['laboratorio'])
         
     return {"API": {"URI": "/api/equipamentos", "METHOD": "GET"}, "DATA": dados}
+
+@router.post("/equipamento")
+async def inserir_equipamento(request: Request):
+    dados = await request.json()
+    equipamento = Equipamento(None, **dados)
+    return {"success": bool(edao.inserir(equipamento))}
+
+
+# Equipamento Modelo
+@router.get("/modelo/{id}")
+def buscar_equipamento_modelo(id: int):
+    return {"API": {"URI": f"/api/equipamento/{id}", "METHOD": "GET"}, "DATA": emdao.buscar_por_id(id)}
+
+@router.get("/modelos")
+def listar_equipamentos_modelo():
+    return {"API": {"URI": "/api/equipamentos", "METHOD": "GET"}, "DATA": emdao.listar_todos()}
+
+@router.post("/modelo/")
+async def inserir_equipamento_modelo(request: Request):
+    dados = await request.json()
+    equipamento = EquipamentoModelo(None, **dados)
+    return {"success": bool(emdao.inserir(equipamento))}
+
+
+# Laboratório
+@router.get("/laboratorio/{id}")
+def buscar_laboratorio(request: Request, id: int):
+    dados = emdao.buscar_por_id(id)
+    if request.state.token['admin'] or id == request.state.token['laboratorio']: 
+        dados = ldao.buscar_por_id(id)
+    else:
+        return HTTPException(404, "Permissões insuficientes")
+    
+    return {"API": {"URI": f"/api/laboratorio/{id}", "METHOD": "GET"}, "DATA": dados}
 
 @router.get("/laboratorios")
 def listar_laboratorios(request: Request):
@@ -45,6 +111,23 @@ def listar_laboratorios(request: Request):
         
     return {"API": {"URI": "/api/laboratorios", "METHOD": "GET"}, "DATA": dados}
 
+@router.post("/laboratorio")
+async def inserir_laboratorio(request: Request):
+    dados = await request.json()
+    laboratorio = Laboratorio(None, **dados)
+    return {"success": bool(ldao.inserir(laboratorio))}
+
+
+# Usuário
+@router.get("/usuario/{id}")
+def buscar_usuario(request: Request, id: int):
+    if request.state.token['admin'] or id == request.state.token['id']: 
+        dados = udao.buscar_por_id(id)
+    else:
+        return HTTPException(status_code=404, detail="Permissões insuficientes")
+        
+    return {"API": {"URI": f"/api/usuario/{id}", "METHOD": "GET"}, "DATA": dados}
+
 @router.get("/usuarios")
 def listar_usuarios(request: Request):
     if request.state.token['admin']: 
@@ -54,24 +137,9 @@ def listar_usuarios(request: Request):
         
     return {"API": {"URI": "/api/usuarios", "METHOD": "GET"}, "DATA": dados}
 
-@router.post("/equipamento")
-async def inserir_equipamento(request: Request):
-    dados = await request.json()
-    equipamento = EquipamentoModelo(**dados)
-    sucesso = emdao.inserir(equipamento)
-    return {"success": bool(sucesso)}
-
-@router.post("/laboratorio")
-async def inserir_laboratorio(request: Request):
-    dados = await request.json()
-    laboratorio = Laboratorio(**dados)
-    sucesso = ldao.inserir(laboratorio)
-    return {"success": bool(sucesso)}
-
 @router.post("/usuario")
 async def inserir_usuario(request: Request):
     dados = await request.json()
-    usuario = Usuario(**dados)
+    usuario = Usuario(None, **dados)
     usuario.criptografa()
-    sucesso = udao.inserir(usuario)
-    return {"success": bool(sucesso)}
+    return {"success": bool(udao.inserir(usuario))}

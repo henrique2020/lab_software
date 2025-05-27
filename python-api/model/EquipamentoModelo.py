@@ -11,5 +11,5 @@ class EquipamentoModelo:
     criterio_aceitacao_calibracao: str
     periodicidade_calibracao: int
     periodicidade_manutencao: int
-    tipo: str  # 'Analógico' ou 'Digital'
+    tipo: str  # '-', 'A', 'D'
     id_categoria: Optional[int]

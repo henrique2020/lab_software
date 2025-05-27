@@ -6,17 +6,7 @@ class EquipamentoModeloDAO:
         self.db = db or Database()
 
     def inserir(self, modelo: EquipamentoModelo) -> int:
-        sql = """
-        INSERT INTO equipamento_modelo (
-            numero_patrimonio, identificacao, equipamento, marca,
-            criterio_aceitacao_calibracao, periodicidade_calibracao,
-            periodicidade_manutencao, tipo, id_categoria
-        ) VALUES (
-            %(numero_patrimonio)s, %(identificacao)s, %(equipamento)s, %(marca)s,
-            %(criterio)s, %(periodicidade_calibracao)s, %(periodicidade_manutencao)s,
-            %(tipo)s, %(id_categoria)s
-        )
-        """
+        sql = "INSERT INTO equipamento_modelo (numero_patrimonio, identificacao, equipamento, marca, criterio_aceitacao_calibracao, periodicidade_calibracao, periodicidade_manutencao, tipo, id_categoria) VALUES (%(numero_patrimonio)s, %(identificacao)s, %(equipamento)s, %(marca)s, %(criterio)s, %(periodicidade_calibracao)s, %(periodicidade_manutencao)s, %(tipo)s, %(id_categoria)s)"
         params = {
             'numero_patrimonio': modelo.numero_patrimonio,
             'identificacao': modelo.identificacao,
@@ -31,19 +21,7 @@ class EquipamentoModeloDAO:
         return self.db.insert(sql, params)
 
     def atualizar(self, modelo: EquipamentoModelo) -> int:
-        sql = """
-        UPDATE equipamento_modelo SET
-            numero_patrimonio = %(numero_patrimonio)s,
-            identificacao = %(identificacao)s,
-            equipamento = %(equipamento)s,
-            marca = %(marca)s,
-            criterio_aceitacao_calibracao = %(criterio)s,
-            periodicidade_calibracao = %(periodicidade_calibracao)s,
-            periodicidade_manutencao = %(periodicidade_manutencao)s,
-            tipo = %(tipo)s,
-            id_categoria = %(id_categoria)s
-        WHERE id = %(id)s
-        """
+        sql = " UPDATE equipamento_modelo SET numero_patrimonio = %(numero_patrimonio)s, identificacao = %(identificacao)s, equipamento = %(equipamento)s, marca = %(marca)s, criterio_aceitacao_calibracao = %(criterio)s, periodicidade_calibracao = %(periodicidade_calibracao)s, periodicidade_manutencao = %(periodicidade_manutencao)s, tipo = %(tipo)s, id_categoria = %(id_categoria)s WHERE id = %(id)s"
         params = {
             'id': modelo.id,
             'numero_patrimonio': modelo.numero_patrimonio,
