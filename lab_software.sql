@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Tempo de geração: 27-Maio-2025 às 15:32
+-- Tempo de geração: 30-Maio-2025 às 17:11
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -41,7 +41,9 @@ CREATE TABLE `categoria` (
 INSERT INTO `categoria` (`id`, `nome`) VALUES
 (1, 'Balança'),
 (2, 'Capela'),
+(12, 'Capo'),
 (3, 'Estufa'),
+(7, 'Ligas'),
 (4, 'Prensa'),
 (5, 'Termometro'),
 (6, 'Vidraria');
@@ -80,7 +82,7 @@ CREATE TABLE `equipamento` (
 
 INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `id_modelo`, `id_laboratorio`) VALUES
 (1, 26433, 9642642, 2, 1),
-(2, 895123, 8945214, 4, 3);
+(2, 895123, 0, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -109,7 +111,7 @@ INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `e
 (1, 203673, 'CDI39X00', 'Computador - i3-9X00', 'Dell', 'Tempertatura X com clock em 3,1GHz', 365, 90, '-', NULL),
 (2, 151320, 'ADE 01', 'Dispositivo de corte em grade – 1 mm entre cortes', 'Medtec', 'distância entre cortes de 1mm', 180, 30, 'D', NULL),
 (3, 12345, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'D', 5),
-(4, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'D', NULL);
+(4, 123456, 'Lam', 'Multímetro Analógico', 'Fluke', '±2%', 12, 24, 'A', 12);
 
 -- --------------------------------------------------------
 
@@ -121,12 +123,22 @@ CREATE TABLE `evento` (
   `id` int(11) NOT NULL,
   `id_equipamento` int(11) NOT NULL,
   `tipo` enum('Calibracao','Manutencao','Qualificacao','Checagem') NOT NULL,
-  `data` date NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `status` enum('Aprovado','Recusado') NOT NULL,
+  `data_criacao` datetime NOT NULL DEFAULT current_timestamp(),
+  `data_agendada` date NOT NULL,
+  `descricao` text NOT NULL,
+  `status` enum('Aprovado','Pendente','Recusado') NOT NULL DEFAULT 'Pendente',
   `custo` decimal(10,2) DEFAULT NULL,
   `id_certificado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `evento`
+--
+
+INSERT INTO `evento` (`id`, `id_equipamento`, `tipo`, `data_criacao`, `data_agendada`, `descricao`, `status`, `custo`, `id_certificado`) VALUES
+(1, 2, 'Calibracao', '2025-05-30 11:16:43', '2025-05-30', 'Teste UPD', 'Aprovado', '1299.00', NULL),
+(2, 1, 'Calibracao', '2025-05-30 11:30:07', '2025-05-30', 'Teste2', 'Pendente', NULL, NULL),
+(3, 2, 'Calibracao', '2025-05-30 11:30:12', '2025-05-30', 'Teste2', 'Pendente', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -149,7 +161,7 @@ CREATE TABLE `laboratorio` (
 INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
 (1, 'Laboratório de Ensaios Mecânicos', 'LAMEC', 'G', '100'),
 (2, 'Ladaia', 'LDA', '58', '407'),
-(3, 'Maltes LTDA', 'MALTE', '71', '101'),
+(3, 'Vigas', 'VGS', 'F', '204'),
 (4, 'Maltes LTDA', 'MALTE', '71', '101');
 
 -- --------------------------------------------------------
@@ -176,7 +188,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiracao`) VALUES
 (1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, 1, NULL, NULL, NULL),
-(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$/KEHzFdxtGzMN5zBJ89wiewp87r1nRoc6N73SoIUH7dX.W8V2BGiu', 0, 1, '2025-05-27 09:33:23', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOjEsImV4cCI6MTc0ODM2MDAwM30.52JICOx-AmVY5EwxwDSzp_zr6jojG9L5VTan0DGr4a4', '2025-05-27 15:33:23');
+(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$.cuainiTbsWaXHpHlBOfQeaCsFbC90Wu./V4.FAZZKJ4hWKoJGOf2', 0, 2, '2025-05-30 12:09:29', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOjIsImV4cCI6MTc0ODYyODU2OX0.PyrdvfhKfFjITZGIQvzd2tFYa6WX9cR3EhgP5hdAFlA', '2025-05-30 18:09:29');
 
 --
 -- Índices para tabelas despejadas
@@ -243,7 +255,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `certificado`
@@ -267,7 +279,7 @@ ALTER TABLE `equipamento_modelo`
 -- AUTO_INCREMENT de tabela `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `laboratorio`
@@ -289,27 +301,27 @@ ALTER TABLE `usuario`
 -- Limitadores para a tabela `equipamento`
 --
 ALTER TABLE `equipamento`
-  ADD CONSTRAINT `equipamento_ibfk_1` FOREIGN KEY (`id_modelo`) REFERENCES `equipamento_modelo` (`id`),
-  ADD CONSTRAINT `equipamento_ibfk_2` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
+  ADD CONSTRAINT `equipamento_equipamentoModelo` FOREIGN KEY (`id_modelo`) REFERENCES `equipamento_modelo` (`id`),
+  ADD CONSTRAINT `equipamento_laboratorio` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
 
 --
 -- Limitadores para a tabela `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
-  ADD CONSTRAINT `equipamento_modelo_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
+  ADD CONSTRAINT `equipamentoModelo_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
 
 --
 -- Limitadores para a tabela `evento`
 --
 ALTER TABLE `evento`
-  ADD CONSTRAINT `evento_ibfk_1` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`),
-  ADD CONSTRAINT `evento_ibfk_2` FOREIGN KEY (`id_certificado`) REFERENCES `certificado` (`id`);
+  ADD CONSTRAINT `evento_certificado` FOREIGN KEY (`id_certificado`) REFERENCES `certificado` (`id`),
+  ADD CONSTRAINT `evento_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`);
 
 --
 -- Limitadores para a tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
+  ADD CONSTRAINT `usuario_laboratorio` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
