@@ -6,8 +6,9 @@ from model import *
 router = APIRouter()
 
 cdao = CategoriaDAO()
-edao = EquipamentoDAO()
+eqdao = EquipamentoDAO()
 emdao = EquipamentoModeloDAO()
+evdao = EventoDAO()
 ldao = LaboratorioDAO()
 udao = UsuarioDAO()
 
@@ -46,14 +47,21 @@ async def inserir_categoria(request: Request):
     
     return {"success": bool(cdao.inserir(categoria))}
 
+@router.post("/categoria/atualizar")
+async def atualizar_categoria(request: Request):
+    dados = await request.json()
+    categoria = Categoria(**dados)
+    
+    return {"success": bool(cdao.atualizar(categoria))}
+
 
 # Equipamento
 @router.get("/equipamento/{id}")
 def buscar_equipamento(request: Request, id: int):
     if request.state.token['admin']:
-        dados = edao.buscar_por_id(id)
+        dados = eqdao.buscar_por_id(id)
     else:
-        dados = edao.buscar_por_id_laboratorio(id, request.state.token['laboratorio'])
+        dados = eqdao.buscar_por_id_laboratorio(id, request.state.token['laboratorio'])
         if not dados:
             return HTTPException(404, "Permissões insuficiente")
 
@@ -62,9 +70,9 @@ def buscar_equipamento(request: Request, id: int):
 @router.get("/equipamentos")
 def listar_equipamentos(request: Request):
     if request.state.token['admin']: 
-        dados = edao.listar_todos()
+        dados = eqdao.listar_todos()
     else:
-        dados = edao.listar_por_laboratorio(request.state.token['laboratorio'])
+        dados = eqdao.listar_por_laboratorio(request.state.token['laboratorio'])
         
     return {"API": {"URI": "/api/equipamentos", "METHOD": "GET"}, "DATA": dados}
 
@@ -72,7 +80,54 @@ def listar_equipamentos(request: Request):
 async def inserir_equipamento(request: Request):
     dados = await request.json()
     equipamento = Equipamento(None, **dados)
-    return {"success": bool(edao.inserir(equipamento))}
+    return {"success": bool(eqdao.inserir(equipamento))}
+
+@router.post("/equipamento/atualizar")
+async def atualizar_equipamento(request: Request):
+    dados = await request.json()
+    equipamento = Equipamento(**dados)
+    return {"success": bool(eqdao.atualizar(equipamento))}
+
+
+# Evento
+@router.get("/evento/{id}")
+def buscar_evento(request: Request, id: int):
+    if request.state.token['admin']:
+        dados = evdao.buscar_por_id(id)
+    else:
+        dados = evdao.buscar_por_id_laboratorio(id, request.state.token['laboratorio'])
+
+    return {"API": {"URI": f"/api/evento/{id}", "METHOD": "GET"}, "DATA": dados}
+
+@router.get("/eventos")
+def listar_eventos(request: Request):
+    if request.state.token['admin']: 
+        dados = evdao.listar_todos()
+    else:
+        dados = evdao.listar_por_laboratorio(request.state.token['laboratorio'])
+        
+    return {"API": {"URI": "/api/eventos", "METHOD": "GET"}, "DATA": dados}
+
+@router.get("/eventos/equipamento/{id}")
+def listar_eventos_equipamento(request: Request, id: int):
+    if request.state.token['admin']: 
+        dados = evdao.listar_por_equipamento(id)
+    else:
+        dados = evdao.listar_por_equipamento_laboratorio(id, request.state.token['laboratorio'])
+        
+    return {"API": {"URI": "/api/eventos", "METHOD": "GET"}, "DATA": dados}
+
+@router.post("/evento")
+async def inserir_evento(request: Request):
+    dados = await request.json()
+    evento = Evento(None, **dados)
+    return {"success": bool(evdao.inserir(evento))}
+
+@router.post("/evento/atualizar")
+async def atualizar_evento(request: Request):
+    dados = await request.json()
+    evento = Evento(**dados)
+    return {"success": bool(evdao.atualizar(evento))}
 
 
 # Equipamento Modelo
@@ -89,6 +144,12 @@ async def inserir_equipamento_modelo(request: Request):
     dados = await request.json()
     equipamento = EquipamentoModelo(None, **dados)
     return {"success": bool(emdao.inserir(equipamento))}
+
+@router.post("/modelo/atualizar")
+async def atualizar_equipamento_modelo(request: Request):
+    dados = await request.json()
+    equipamento = EquipamentoModelo(**dados)
+    return {"success": bool(emdao.atualizar(equipamento))}
 
 
 # Laboratório
@@ -117,6 +178,12 @@ async def inserir_laboratorio(request: Request):
     laboratorio = Laboratorio(None, **dados)
     return {"success": bool(ldao.inserir(laboratorio))}
 
+@router.post("/laboratorio/atualizar")
+async def atualizar_laboratorio(request: Request):
+    dados = await request.json()
+    laboratorio = Laboratorio(**dados)
+    return {"success": bool(ldao.atualizar(laboratorio))}
+
 
 # Usuário
 @router.get("/usuario/{id}")
@@ -143,3 +210,10 @@ async def inserir_usuario(request: Request):
     usuario = Usuario(None, **dados)
     usuario.criptografa()
     return {"success": bool(udao.inserir(usuario))}
+
+@router.post("/usuario/atualizar")
+async def atualizar_usuario(request: Request):
+    dados = await request.json()
+    usuario = Usuario(**dados)
+    usuario.criptografa()
+    return {"success": bool(udao.atualizar(usuario))}

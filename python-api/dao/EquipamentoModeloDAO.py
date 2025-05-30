@@ -21,14 +21,14 @@ class EquipamentoModeloDAO:
         return self.db.insert(sql, params)
 
     def atualizar(self, modelo: EquipamentoModelo) -> int:
-        sql = " UPDATE equipamento_modelo SET numero_patrimonio = %(numero_patrimonio)s, identificacao = %(identificacao)s, equipamento = %(equipamento)s, marca = %(marca)s, criterio_aceitacao_calibracao = %(criterio)s, periodicidade_calibracao = %(periodicidade_calibracao)s, periodicidade_manutencao = %(periodicidade_manutencao)s, tipo = %(tipo)s, id_categoria = %(id_categoria)s WHERE id = %(id)s"
+        sql = " UPDATE equipamento_modelo SET numero_patrimonio = %(numero_patrimonio)s, identificacao = %(identificacao)s, equipamento = %(equipamento)s, marca = %(marca)s, criterio_aceitacao_calibracao = %(criterio_aceitacao_calibracao)s, periodicidade_calibracao = %(periodicidade_calibracao)s, periodicidade_manutencao = %(periodicidade_manutencao)s, tipo = %(tipo)s, id_categoria = %(id_categoria)s WHERE id = %(id)s"
         params = {
             'id': modelo.id,
             'numero_patrimonio': modelo.numero_patrimonio,
             'identificacao': modelo.identificacao,
             'equipamento': modelo.equipamento,
             'marca': modelo.marca,
-            'criterio': modelo.criterio_aceitacao_calibracao,
+            'criterio_aceitacao_calibracao': modelo.criterio_aceitacao_calibracao,
             'periodicidade_calibracao': modelo.periodicidade_calibracao,
             'periodicidade_manutencao': modelo.periodicidade_manutencao,
             'tipo': modelo.tipo,
