@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
@@ -8,14 +9,16 @@ load_dotenv()
 
 class Database:
     def __init__(self):
-        self.connection = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USUARIO"),
-            password=os.getenv("DB_SENHA"),
-            database=os.getenv("DB_BANCO"),
-            port=3307
-        )
-        self.cursor = self.connection.cursor(dictionary=True)
+        try:
+            self.connection = mysql.connector.connect(
+                host=os.getenv("DB_HOST"),
+                user=os.getenv("DB_USUARIO"),
+                password=os.getenv("DB_SENHA"),
+                database=os.getenv("DB_BANCO")
+            )
+            self.cursor = self.connection.cursor(dictionary=True)
+        except Error as e:
+            raise HTTPException(status_code=500, detail=f"Erro ao conectar ao banco: {str(e)}")
 
     def execute(self, sql, params=None):
         try:
@@ -29,7 +32,7 @@ class Database:
                 
         except Error as e:
             self.connection.rollback()
-            raise e
+            raise HTTPException(status_code=400, detail=f"Erro ao executar SQL: {str(e)}")
 
     def select(self, sql, params=None):
         self.execute(sql, params)

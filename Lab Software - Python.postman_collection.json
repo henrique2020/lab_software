@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8e5e7955-9c46-48d1-8070-54822705f6b7",
+		"_postman_id": "9122fb17-7b54-4246-964b-017bebf0b461",
 		"name": "Lab Software - Python",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17637127"
+		"_exporter_id": "44220469"
 	},
 	"item": [
 		{
@@ -62,6 +62,66 @@
 									],
 									"path": [
 										"categorias"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certificado",
+					"item": [
+						{
+							"name": "GET - Certificado (ID)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}api/certificado/2",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificado",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Certificados",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}api/certificados",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificados"
 									]
 								}
 							},
@@ -438,7 +498,7 @@
 							"response": []
 						},
 						{
-							"name": "POST - Categoria (Att) Copy",
+							"name": "POST - Categoria (Att)",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -468,6 +528,157 @@
 									],
 									"path": [
 										"categoria",
+										"atualizar"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certificado",
+					"item": [
+						{
+							"name": "POST - Certificado",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"numero\": 12645,\r\n    \"data\": \"2024-08-12\",\r\n    \"orgao_expedidor\": \"FUNEP\",\r\n    \"arquivo\": \"12645-funep.pdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/certificado",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificado"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Certificado (Att)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/certificado/atualizar",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificado",
+										"atualizar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Certificado",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"numero\": 12645,\r\n    \"data\": \"2024-08-12\",\r\n    \"orgao_expedidor\": \"FUNEP\",\r\n    \"arquivo\": \"12645-funep.pdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/certificado",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificado"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Certificado (Att)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/certificado/atualizar",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"certificado",
 										"atualizar"
 									]
 								}

@@ -5,7 +5,8 @@ from model import *
 
 router = APIRouter()
 
-cdao = CategoriaDAO()
+cadao = CategoriaDAO()
+cedao = CertificadoDAO()
 eqdao = EquipamentoDAO()
 emdao = EquipamentoModeloDAO()
 evdao = EventoDAO()
@@ -34,25 +35,49 @@ async def login(request: Request):
 # Categoria
 @router.get("/categoria/{id}")
 def buscar_categoria(id: int):
-    return {"API": {"URI": f"/api/categoria/{id}", "METHOD": "GET"}, "DATA": cdao.buscar_por_id(id)}
+    return {"API": {"URI": f"/api/categoria/{id}", "METHOD": "GET"}, "DATA": cadao.buscar_por_id(id)}
 
 @router.get("/categorias")
 def listar_categorias():
-    return {"API": {"URI": "/api/categorias", "METHOD": "GET"}, "DATA": cdao.listar_todos()}
+    return {"API": {"URI": "/api/categorias", "METHOD": "GET"}, "DATA": cadao.listar_todos()}
 
 @router.post("/categoria")
 async def inserir_categoria(request: Request):
     dados = await request.json()
     categoria = Categoria(None, **dados)
     
-    return {"success": bool(cdao.inserir(categoria))}
+    return {"success": bool(cadao.inserir(categoria))}
 
 @router.post("/categoria/atualizar")
 async def atualizar_categoria(request: Request):
     dados = await request.json()
     categoria = Categoria(**dados)
     
-    return {"success": bool(cdao.atualizar(categoria))}
+    return {"success": bool(cadao.atualizar(categoria))}
+
+
+# Certificado
+@router.get("/certificado/{id}")
+def buscar_certificado(id: int):
+    return {"API": {"URI": f"/api/certificado/{id}", "METHOD": "GET"}, "DATA": cedao.buscar_por_id(id)}
+
+@router.get("/certificados")
+def listar_certificado():
+    return {"API": {"URI": "/api/certificados", "METHOD": "GET"}, "DATA": cedao.listar_todos()}
+
+@router.post("/certificado")
+async def inserir_certificado(request: Request):
+    dados = await request.json()
+    certificado = Certificado(None, **dados)
+    
+    return {"success": bool(cedao.inserir(certificado))}
+
+@router.post("/certificado/atualizar")
+async def atualizar_certificado(request: Request):
+    dados = await request.json()
+    certificado = Certificado(**dados)
+    
+    return {"success": bool(cedao.atualizar(certificado))}
 
 
 # Equipamento
