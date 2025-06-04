@@ -4,7 +4,7 @@ Este projeto é uma API RESTful desenvolvida em Python utilizando o framework Fa
 
 ## 📦 Bibliotecas necessárias
 
-Instale todoas as dependências pelo comando `pip install -r requirements.txt` ou instale separadamente as bibliotecas abaixo
+Instale todas as dependências pelo comando `pip install -r requirements.txt` ou instale separadamente as bibliotecas abaixo
 
 * bcrypt
 * fastapi
@@ -19,9 +19,12 @@ Instale todoas as dependências pelo comando `pip install -r requirements.txt` o
 .
 ├── python-api/
 │   ├── dao/
-│   │   └── database.py
+│   │   ├── Database.py
+│   │   ├── ExemploDAO.py
+│   │   └── ...
 │   ├── model/
-│   │   └── exemplo.py
+│   │   ├── Exemplo.py
+│   │   └── ...
 │   ├── main.py
 │   ├── middleware.py
 │   ├── routes.py
@@ -32,9 +35,11 @@ Instale todoas as dependências pelo comando `pip install -r requirements.txt` o
 
 ## ▶️ Execução
 
-> `cd ./python-api`
-> `uvicorn main:app --reload`
+```cmd
+cd ./python-api
+uvicorn main:app --reload
+```
 
-| Comando  | Desctição                                                                 |
+| Comando  | Descrição                                                                 |
 | -------- | --------------------------------------------------------------------------- |
 | --reload | Recarrega automaticamente o servidor em alterações (para desenvolvimento) |
