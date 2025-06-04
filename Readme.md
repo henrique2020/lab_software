@@ -17,21 +17,24 @@ Instale todoas as dependências pelo comando `pip install -r requirements.txt` o
 
 ```
 .
-├── python-app/
-│   ├── main.py
+├── python-api/
 │   ├── dao/
 │   │   └── database.py
 │   ├── model/
 │   │   └── exemplo.py
-│   ├── routes/
-│   ├──.env
+│   ├── main.py
+│   ├── middleware.py
+│   ├── routes.py
+│   ├── .env
 │   └── requirements.txt
 └── README.md
 ```
 
-## ▶️ Execução 
+## ▶️ Execução
 
-`uvicorn app.main:app --reload`
+> `cd ./python-api`
+> `uvicorn main:app --reload`
 
-1. app.main 	→ caminho do arquivo main.py dentro do diretório python-app/
-2. --reload   		→ recarrega automaticamente o servidor em alterações (para desenvolvimento)
+| Comando  | Desctição                                                                 |
+| -------- | --------------------------------------------------------------------------- |
+| --reload | Recarrega automaticamente o servidor em alterações (para desenvolvimento) |
