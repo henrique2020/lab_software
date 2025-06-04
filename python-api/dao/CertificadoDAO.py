@@ -6,8 +6,9 @@ class CertificadoDAO:
         self.db = db or Database()
 
     def inserir(self, certificado: Certificado) -> int:
-        sql = "INSERT INTO certificado (numero, data, orgao_expedidor, arquivo) VALUES (%(numero)s, %(data)s, %(orgao_expedidor)s, %(arquivo)s)"
+        sql = "INSERT INTO certificado (id_evento, numero, data, orgao_expedidor, arquivo) VALUES (%(id_evento)s, %(numero)s, %(data)s, %(orgao_expedidor)s, %(arquivo)s)"
         params = {
+            'id_evento': certificado.id_evento,
             'numero': certificado.numero,
             'data': certificado.data,
             'orgao_expedidor': certificado.orgao_expedidor,
@@ -16,9 +17,9 @@ class CertificadoDAO:
         return self.db.insert(sql, params)
 
     def atualizar(self, certificado: Certificado) -> int:
-        sql = "UPDATE certificado SET numero = %(numero)s, data = %(data)s, orgao_expedidor = %(orgao_expedidor)s, arquivo = %(arquivo)s WHERE id = %(id)s"
+        sql = "UPDATE certificado SET numero = %(numero)s, data = %(data)s, orgao_expedidor = %(orgao_expedidor)s, arquivo = %(arquivo)s WHERE id_evento = %(id_evento)s"
         params = {
-            'id': certificado.id,
+            'id_evento': certificado.id_evento,
             'numero': certificado.numero,
             'data': certificado.data,
             'orgao_expedidor': certificado.orgao_expedidor,
@@ -26,13 +27,13 @@ class CertificadoDAO:
         }
         return self.db.update(sql, params)
 
-    def deletar(self, id_: int) -> int:
-        sql = "DELETE FROM certificado WHERE id = %(id)s"
-        return self.db.delete(sql, {'id': id_})
+    def deletar(self, id_evento: int) -> int:
+        sql = "DELETE FROM certificado WHERE id_evento = %(id_evento)s"
+        return self.db.delete(sql, {'id_evento': id_evento})
 
-    def buscar_por_id(self, id_: int) -> Certificado | None:
-        sql = "SELECT * FROM certificado WHERE id = %(id)s"
-        resultado = self.db.select(sql, {'id': id_})
+    def buscar_por_id(self, id_evento: int) -> Certificado | None:
+        sql = "SELECT * FROM certificado WHERE id_evento = %(id_evento)s"
+        resultado = self.db.select(sql, {'id_evento': id_evento})
         return Certificado(**resultado[0]) if resultado else None
     
     def listar_todos(self) -> list[Certificado]:

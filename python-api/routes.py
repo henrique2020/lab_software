@@ -75,7 +75,7 @@ async def inserir_certificado(request: Request):
 @router.post("/certificado/atualizar")
 async def atualizar_certificado(request: Request):
     dados = await request.json()
-    certificado = Certificado(**dados)
+    certificado = Certificado(None, **dados)
     
     return {"success": bool(cedao.atualizar(certificado))}
 

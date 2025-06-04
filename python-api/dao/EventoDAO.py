@@ -6,7 +6,7 @@ class EventoDAO:
         self.db = db or Database()
 
     def inserir(self, evento: Evento) -> int:
-        sql = "INSERT INTO evento (id_equipamento, tipo, data_agendada, descricao, status, custo, id_certificado)VALUES (%(id_equipamento)s, %(tipo)s, %(data_agendada)s, %(descricao)s, %(status)s, %(custo)s, %(id_certificado)s)"
+        sql = "INSERT INTO evento (id_equipamento, tipo, data_agendada, descricao, status, custo)VALUES (%(id_equipamento)s, %(tipo)s, %(data_agendada)s, %(descricao)s, %(status)s, %(custo)s)"
         params = {
             'id_equipamento': evento.id_equipamento,
             'tipo': evento.tipo,
@@ -14,12 +14,11 @@ class EventoDAO:
             'descricao': evento.descricao,
             'status': evento.status,
             'custo': evento.custo,
-            'id_certificado': evento.id_certificado
         }
         return self.db.insert(sql, params)
 
     def atualizar(self, evento: Evento) -> int:
-        sql = " UPDATE evento SET id_equipamento = %(id_equipamento)s, tipo = %(tipo)s, data_agendada = %(data_agendada)s, descricao = %(descricao)s, status = %(status)s, custo = %(custo)s, id_certificado = %(id_certificado)s WHERE id = %(id)s"
+        sql = " UPDATE evento SET id_equipamento = %(id_equipamento)s, tipo = %(tipo)s, data_agendada = %(data_agendada)s, descricao = %(descricao)s, status = %(status)s, custo = %(custo)s WHERE id = %(id)s"
         params = {
             'id': evento.id,
             'id_equipamento': evento.id_equipamento,
@@ -27,8 +26,7 @@ class EventoDAO:
             'data_agendada': evento.data_agendada,
             'descricao': evento.descricao,
             'status': evento.status,
-            'custo': evento.custo,
-            'id_certificado': evento.id_certificado
+            'custo': evento.custo
         }
         return self.db.update(sql, params)
 

@@ -12,4 +12,3 @@ class Evento:
     descricao: str
     status : str = 'Pendente'   # 'Aprovado', 'Pendente', 'Recusado'
     custo: Optional[float] = None
-    id_certificado : Optional[int] = None
