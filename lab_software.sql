@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Tempo de geração: 30-Maio-2025 às 17:11
+-- Tempo de geração: 04-Jun-2025 às 15:55
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -41,9 +41,7 @@ CREATE TABLE `categoria` (
 INSERT INTO `categoria` (`id`, `nome`) VALUES
 (1, 'Balança'),
 (2, 'Capela'),
-(12, 'Capo'),
 (3, 'Estufa'),
-(7, 'Ligas'),
 (4, 'Prensa'),
 (5, 'Termometro'),
 (6, 'Vidraria');
@@ -56,11 +54,19 @@ INSERT INTO `categoria` (`id`, `nome`) VALUES
 
 CREATE TABLE `certificado` (
   `id` int(11) NOT NULL,
+  `id_evento` int(11) NOT NULL,
   `numero` int(11) NOT NULL,
   `data` date NOT NULL,
   `orgao_expedidor` text NOT NULL,
   `arquivo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `certificado`
+--
+
+INSERT INTO `certificado` (`id`, `id_evento`, `numero`, `data`, `orgao_expedidor`, `arquivo`) VALUES
+(1, 1, 213, '2025-05-30', 'FUVEST', '213-fuvest.pdf');
 
 -- --------------------------------------------------------
 
@@ -81,8 +87,7 @@ CREATE TABLE `equipamento` (
 --
 
 INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `id_modelo`, `id_laboratorio`) VALUES
-(1, 26433, 9642642, 2, 1),
-(2, 895123, 0, 4, 1);
+(1, 895123, 8945214, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -108,10 +113,7 @@ CREATE TABLE `equipamento_modelo` (
 --
 
 INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
-(1, 203673, 'CDI39X00', 'Computador - i3-9X00', 'Dell', 'Tempertatura X com clock em 3,1GHz', 365, 90, '-', NULL),
-(2, 151320, 'ADE 01', 'Dispositivo de corte em grade – 1 mm entre cortes', 'Medtec', 'distância entre cortes de 1mm', 180, 30, 'D', NULL),
-(3, 12345, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'D', 5),
-(4, 123456, 'Lam', 'Multímetro Analógico', 'Fluke', '±2%', 12, 24, 'A', 12);
+(1, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'D', NULL);
 
 -- --------------------------------------------------------
 
@@ -127,18 +129,15 @@ CREATE TABLE `evento` (
   `data_agendada` date NOT NULL,
   `descricao` text NOT NULL,
   `status` enum('Aprovado','Pendente','Recusado') NOT NULL DEFAULT 'Pendente',
-  `custo` decimal(10,2) DEFAULT NULL,
-  `id_certificado` int(11) DEFAULT NULL
+  `custo` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `evento`
 --
 
-INSERT INTO `evento` (`id`, `id_equipamento`, `tipo`, `data_criacao`, `data_agendada`, `descricao`, `status`, `custo`, `id_certificado`) VALUES
-(1, 2, 'Calibracao', '2025-05-30 11:16:43', '2025-05-30', 'Teste UPD', 'Aprovado', '1299.00', NULL),
-(2, 1, 'Calibracao', '2025-05-30 11:30:07', '2025-05-30', 'Teste2', 'Pendente', NULL, NULL),
-(3, 2, 'Calibracao', '2025-05-30 11:30:12', '2025-05-30', 'Teste2', 'Pendente', NULL, NULL);
+INSERT INTO `evento` (`id`, `id_equipamento`, `tipo`, `data_criacao`, `data_agendada`, `descricao`, `status`, `custo`) VALUES
+(1, 1, 'Calibracao', '2025-06-04 10:48:36', '2025-05-30', 'Vencimento da última calibração', 'Aprovado', '1299.00');
 
 -- --------------------------------------------------------
 
@@ -159,10 +158,7 @@ CREATE TABLE `laboratorio` (
 --
 
 INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
-(1, 'Laboratório de Ensaios Mecânicos', 'LAMEC', 'G', '100'),
-(2, 'Ladaia', 'LDA', '58', '407'),
-(3, 'Vigas', 'VGS', 'F', '204'),
-(4, 'Maltes LTDA', 'MALTE', '71', '101');
+(1, 'Laboratório de Ensaios Mecânicos', 'LAMEC', 'G', '100');
 
 -- --------------------------------------------------------
 
@@ -187,8 +183,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiracao`) VALUES
-(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, 1, NULL, NULL, NULL),
-(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$.cuainiTbsWaXHpHlBOfQeaCsFbC90Wu./V4.FAZZKJ4hWKoJGOf2', 0, 2, '2025-05-30 12:09:29', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOjIsImV4cCI6MTc0ODYyODU2OX0.PyrdvfhKfFjITZGIQvzd2tFYa6WX9cR3EhgP5hdAFlA', '2025-05-30 18:09:29');
+(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, NULL, NULL, NULL, NULL),
+(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$rFcZvIx47jf783urzpS/oeLHj2S8dXAY.fwUS24OPoAb4wzA7Vzbq', 0, 1, '2025-06-04 10:25:04', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOjIsImV4cCI6MTc0OTA1NDMwNH0.hrYu-duWkaFkQ0k8jPLER6c02coQEFMQ9QIpVhCYpoA', '2025-06-04 16:25:04');
 
 --
 -- Índices para tabelas despejadas
@@ -205,7 +201,8 @@ ALTER TABLE `categoria`
 -- Índices para tabela `certificado`
 --
 ALTER TABLE `certificado`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `certificado_evento` (`id_evento`);
 
 --
 -- Índices para tabela `equipamento`
@@ -229,8 +226,7 @@ ALTER TABLE `equipamento_modelo`
 --
 ALTER TABLE `evento`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_certificado` (`id_certificado`),
-  ADD KEY `evento_ibfk_1` (`id_equipamento`);
+  ADD KEY `evento_equipamento` (`id_equipamento`);
 
 --
 -- Índices para tabela `laboratorio`
@@ -255,37 +251,37 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `certificado`
 --
 ALTER TABLE `certificado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `equipamento`
 --
 ALTER TABLE `equipamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `laboratorio`
 --
 ALTER TABLE `laboratorio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
@@ -296,6 +292,12 @@ ALTER TABLE `usuario`
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `certificado`
+--
+ALTER TABLE `certificado`
+  ADD CONSTRAINT `certificado_evento` FOREIGN KEY (`id_evento`) REFERENCES `evento` (`id`);
 
 --
 -- Limitadores para a tabela `equipamento`
@@ -314,7 +316,6 @@ ALTER TABLE `equipamento_modelo`
 -- Limitadores para a tabela `evento`
 --
 ALTER TABLE `evento`
-  ADD CONSTRAINT `evento_certificado` FOREIGN KEY (`id_certificado`) REFERENCES `certificado` (`id`),
   ADD CONSTRAINT `evento_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`);
 
 --

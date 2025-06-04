@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "8e5e7955-9c46-48d1-8070-54822705f6b7",
 		"name": "Lab Software - Python",
-		"description": "Chamadas em API para GET (consulta) e POST (cadatro/atualização)",
+		"description": "Chamadas em API para GET (consulta) e POST (cadastro/atualização)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17637127"
 	},
@@ -412,7 +412,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"numero\": 12645,\r\n    \"data\": \"2024-08-12\",\r\n    \"orgao_expedidor\": \"FUNEP\",\r\n    \"arquivo\": \"12645-funep.pdf\"\r\n}",
+									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 213,\r\n    \"data\": \"2025-05-30\",\r\n    \"orgao_expedidor\": \"FUVEST\",\r\n    \"arquivo\": \"213-fuvest.pdf\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -438,7 +438,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 2,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
+									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -465,7 +465,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"numero\": 12645,\r\n    \"data\": \"2024-08-12\",\r\n    \"orgao_expedidor\": \"FUNEP\",\r\n    \"arquivo\": \"12645-funep.pdf\"\r\n}",
+									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 213,\r\n    \"data\": \"2025-05-30\",\r\n    \"orgao_expedidor\": \"FUVEST\",\r\n    \"arquivo\": \"213-fuvest.pdf\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -491,7 +491,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 2,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
+									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 12646,\r\n    \"data\": \"2024-12-12\",\r\n    \"orgao_expedidor\": \"FISCO\",\r\n    \"arquivo\": \"12646-fisco.pdf\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -523,7 +523,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tag\": \"895123\",\r\n    \"numero_patrimonio\": \"8945214\",\r\n    \"id_modelo\": \"4\",\r\n    \"id_laboratorio\": \"1\"\r\n}",
+									"raw": "{\r\n    \"tag\": \"895123\",\r\n    \"numero_patrimonio\": \"8945214\",\r\n    \"id_modelo\": \"1\",\r\n    \"id_laboratorio\": \"1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -576,7 +576,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"numero_patrimonio\": 123456,\r\n    \"identificacao\": \"Multímetro\",\r\n    \"equipamento\": \"Multímetro Digital\",\r\n    \"marca\": \"Fluke\",\r\n    \"criterio_aceitacao_calibracao\": \"±2%\",\r\n    \"periodicidade_calibracao\": \"12\",\r\n    \"periodicidade_manutencao\": \"24\",\r\n    \"tipo\": \"A\",\r\n    \"id_categoria\": null\r\n}",
+									"raw": "{\r\n    \"numero_patrimonio\": 123456,\r\n    \"identificacao\": \"Multímetro\",\r\n    \"equipamento\": \"Multímetro Digital\",\r\n    \"marca\": \"Fluke\",\r\n    \"criterio_aceitacao_calibracao\": \"±2%\",\r\n    \"periodicidade_calibracao\": \"12\",\r\n    \"periodicidade_manutencao\": \"24\",\r\n    \"tipo\": \"D\",\r\n    \"id_categoria\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -634,7 +634,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id_equipamento\": 2,\r\n    \"tipo\": \"Calibracao\",\r\n    \"data_criacao\": null,\r\n    \"data_agendada\": \"2025-05-30 11:13:00\",\r\n    \"descricao\": \"Teste2\"\r\n}",
+									"raw": "{\r\n    \"id_equipamento\": 1,\r\n    \"tipo\": \"Calibracao\",\r\n    \"data_criacao\": null,\r\n    \"data_agendada\": \"2025-05-30 11:13:00\",\r\n    \"descricao\": \"Vencimento da última calibração\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -660,7 +660,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 1,\r\n    \"id_equipamento\": 2,\r\n    \"tipo\": \"Calibracao\",\r\n    \"data_criacao\": null,\r\n    \"data_agendada\": \"2025-05-30\",\r\n    \"descricao\": \"Teste UPD\",\r\n    \"status\": \"Aprovado\",\r\n    \"custo\": 1299.00\r\n}",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"id_equipamento\": 1,\r\n    \"tipo\": \"Calibracao\",\r\n    \"data_criacao\": null,\r\n    \"data_agendada\": \"2025-05-30\",\r\n    \"descricao\": \"Vencimento da última calibração\",\r\n    \"status\": \"Aprovado\",\r\n    \"custo\": 1299.00\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -692,7 +692,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nome\": \"Maltes LTDA\",\r\n    \"sigla\": \"MALTE\",\r\n    \"bloco\": \"71\",\r\n    \"sala\": 101\r\n}",
+									"raw": "{\r\n    \"nome\": \"Laboratório de Ensaios Mecânicos\",\r\n    \"sigla\": \"LAMEC\",\r\n    \"bloco\": \"G\",\r\n    \"sala\": 100\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -798,7 +798,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 2,\r\n    \"nome\": \"Marial de Tal\",\r\n    \"email\": \"mdt@email.com\",\r\n    \"senha\": \"teste\",\r\n    \"admin\": false,\r\n    \"id_laboratorio\": 2\r\n}",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"nome\": \"Marial de Tal\",\r\n    \"email\": \"mdt@email.com\",\r\n    \"senha\": \"teste\",\r\n    \"admin\": false,\r\n    \"id_laboratorio\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
