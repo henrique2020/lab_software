@@ -3,6 +3,8 @@ from typing import Optional
 from datetime import datetime
 import bcrypt
 
+from model.Laboratorio import Laboratorio
+
 @dataclass
 class Usuario:
     id: Optional[int]
@@ -10,7 +12,7 @@ class Usuario:
     email: str
     senha: str
     admin: bool = False
-    id_laboratorio: Optional[int] = None
+    id_laboratorio: Optional[int]|Optional[Laboratorio] = None
     data_acesso: Optional[datetime] = None
     token: Optional[str] = None
     data_expiracao: Optional[datetime] = None

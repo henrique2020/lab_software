@@ -1,10 +1,15 @@
 from dataclasses import dataclass
 from typing import Optional
+from datetime import date
+
+from model.EquipamentoModelo import EquipamentoModelo
+from model.Laboratorio import Laboratorio
 
 @dataclass
 class Equipamento:
     id: Optional[int]
     tag: int
     numero_patrimonio: int
-    id_modelo: int
-    id_laboratorio: int
+    data_implantacao: date
+    id_modelo: int|EquipamentoModelo
+    id_laboratorio: int|Laboratorio

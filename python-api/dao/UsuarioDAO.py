@@ -1,9 +1,17 @@
 from dao.Database import Database
 from model.Usuario import Usuario
 
+from dao.LaboratorioDAO import LaboratorioDAO
+
 class UsuarioDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
+        
+    def _buscar_objetos(self, linha: dict) -> Usuario:
+        u = Usuario(**linha)
+        u.id_laboratorio = LaboratorioDAO(self.db).buscar_por_id(u.id_laboratorio)
+        
+        return u
 
     def inserir(self, usuario: Usuario) -> int:
         sql = "INSERT INTO usuario (nome, email, senha, admin, id_laboratorio) VALUES (%(nome)s, %(email)s, %(senha)s, %(admin)s, %(id_laboratorio)s)"
@@ -48,8 +56,8 @@ class UsuarioDAO:
 
     def listar_todos(self) -> list[Usuario]:
         resultados = self.db.select("SELECT * FROM usuario ORDER BY nome")
-        return [Usuario(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
     
     def listar_por_laboratorio(self, id_laboratorio: int) -> list[Usuario]:
         resultados = self.db.select("SELECT * FROM usuario WHERE id_laboratorio = %(id)s", {'id': id_laboratorio})
-        return [Usuario(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]

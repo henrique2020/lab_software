@@ -1,9 +1,17 @@
 from dao.Database import Database
 from model.Certificado import Certificado
 
+from dao.EventoDAO import EventoDAO
+
 class CertificadoDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
+    
+    def _buscar_objetos(self, linha: dict) -> Certificado:
+        c = Certificado(**linha)
+        c.id_evento = EventoDAO(self.db).buscar_por_id(c.id_evento)
+        
+        return c
 
     def inserir(self, certificado: Certificado) -> int:
         sql = "INSERT INTO certificado (id_evento, numero, data, orgao_expedidor, arquivo) VALUES (%(id_evento)s, %(numero)s, %(data)s, %(orgao_expedidor)s, %(arquivo)s)"
@@ -39,4 +47,4 @@ class CertificadoDAO:
     def listar_todos(self) -> list[Certificado]:
         sql = "SELECT * FROM certificado ORDER BY data"
         resultados = self.db.select(sql)
-        return [Certificado(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]

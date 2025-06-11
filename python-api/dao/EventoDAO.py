@@ -1,9 +1,16 @@
 from dao.Database import Database
 from model.Evento import Evento
 
+from dao.EquipamentoDAO import EquipamentoDAO
 class EventoDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
+        
+    def _buscar_objetos(self, linha: dict) -> Evento:
+        e = Evento(**linha)
+        e.id_equipamento = EquipamentoDAO(self.db).buscar_por_id(e.id_equipamento)
+        
+        return e
 
     def inserir(self, evento: Evento) -> int:
         sql = "INSERT INTO evento (id_equipamento, tipo, data_agendada, descricao, status, custo)VALUES (%(id_equipamento)s, %(tipo)s, %(data_agendada)s, %(descricao)s, %(status)s, %(custo)s)"
@@ -43,25 +50,25 @@ class EventoDAO:
 
     def listar_todos(self) -> list[Evento]:
         resultados = self.db.select("SELECT * FROM evento ORDER BY data_agendada DESC")
-        return [Evento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
 
     def listar_por_equipamento(self, id_equipamento: int) -> list[Evento]:
         resultados = self.db.select(
             "SELECT * FROM evento WHERE id_equipamento = %(id_equipamento)s ORDER BY data_agendada DESC",
             {'id_equipamento': id_equipamento}
         )
-        return [Evento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
     
     def listar_por_equipamento_laboratorio(self, id_equipamento: int, id_laboratorio) -> list[Evento]:
         resultados = self.db.select(
             "SELECT ev.* FROM evento ev JOIN equipamento eq ON (eq.id = ev.id_equipamento) WHERE ev.id_equipamento = %(id_equipamento)s AND eq.id_laboratorio = %(id_laboratorio)s",
             {'id_equipamento': id_equipamento, 'id_laboratorio': id_laboratorio}
         )
-        return [Evento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
     
     def listar_por_laboratorio(self, id_laboratorio: int) -> list[Evento]:
         resultados = self.db.select(
             "SELECT ev.* FROM evento ev JOIN equipamento eq ON (eq.id = ev.id_equipamento) WHERE eq.id_laboratorio = %(id_laboratorio)s",
             {'id_laboratorio': id_laboratorio}
         )
-        return [Evento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]

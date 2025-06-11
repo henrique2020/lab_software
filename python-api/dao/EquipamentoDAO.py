@@ -1,10 +1,20 @@
 from dao.Database import Database
 from model.Equipamento import Equipamento
 
+from dao.EquipamentoModeloDAO import EquipamentoModeloDAO
+from dao.LaboratorioDAO import LaboratorioDAO
+
 class EquipamentoDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
-
+        
+    def _buscar_objetos(self, linha: dict) -> Equipamento:
+        e = Equipamento(**linha)
+        e.id_modelo = EquipamentoModeloDAO(self.db).buscar_por_id(e.id_modelo)
+        e.id_laboratorio = LaboratorioDAO(self.db).buscar_por_id(e.id_laboratorio)
+        
+        return e
+        
     def inserir(self, equipamento: Equipamento) -> int:
         sql = "INSERT INTO equipamento (tag, numero_patrimonio, id_modelo, id_laboratorio) VALUES (%(tag)s, %(numero_patrimonio)s, %(id_modelo)s, %(id_laboratorio)s)"
         params = {
@@ -39,8 +49,8 @@ class EquipamentoDAO:
 
     def listar_todos(self) -> list[Equipamento]:
         resultados = self.db.select("SELECT * FROM equipamento ORDER BY numero_patrimonio")
-        return [Equipamento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
     
     def listar_por_laboratorio(self, id_laboratorio: int) -> list[Equipamento]:
         resultados = self.db.select("SELECT * FROM equipamento WHERE id_laboratorio = %(id_laboratorio)s ORDER BY numero_patrimonio", {'id_laboratorio': id_laboratorio})
-        return [Equipamento(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]

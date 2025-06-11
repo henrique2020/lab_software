@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from model.Categoria import Categoria
 @dataclass
 class EquipamentoModelo:
     id: Optional[int]
@@ -9,7 +10,8 @@ class EquipamentoModelo:
     equipamento: str
     marca: str
     criterio_aceitacao_calibracao: str
-    periodicidade_calibracao: int
-    periodicidade_manutencao: int
-    tipo: str  # '-', 'A', 'D'
-    id_categoria: Optional[int]
+    periodicidade_calibracao: int   #Anos
+    aviso_renovacao_calibracao: int #Dias
+    periodicidade_manutencao: int   #Anos
+    tipo: str  #A', 'D'
+    id_categoria: Optional[int]|Optional[Categoria]
