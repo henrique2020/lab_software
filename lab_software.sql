@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Tempo de geração: 04-Jun-2025 às 15:55
--- Versão do servidor: 10.4.25-MariaDB
--- versão do PHP: 8.1.10
+-- Host: 127.0.0.1
+-- Tempo de geração: 13/06/2025 às 00:49
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -26,16 +26,16 @@ USE `lab_software`;
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categoria`
+-- Estrutura para tabela `categoria`
 --
 
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `categoria`
+-- Despejando dados para a tabela `categoria`
 --
 
 INSERT INTO `categoria` (`id`, `nome`) VALUES
@@ -49,7 +49,7 @@ INSERT INTO `categoria` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `certificado`
+-- Estrutura para tabela `certificado`
 --
 
 CREATE TABLE `certificado` (
@@ -59,10 +59,10 @@ CREATE TABLE `certificado` (
   `data` date NOT NULL,
   `orgao_expedidor` text NOT NULL,
   `arquivo` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `certificado`
+-- Despejando dados para a tabela `certificado`
 --
 
 INSERT INTO `certificado` (`id`, `id_evento`, `numero`, `data`, `orgao_expedidor`, `arquivo`) VALUES
@@ -71,28 +71,29 @@ INSERT INTO `certificado` (`id`, `id_evento`, `numero`, `data`, `orgao_expedidor
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `equipamento`
+-- Estrutura para tabela `equipamento`
 --
 
 CREATE TABLE `equipamento` (
   `id` int(11) NOT NULL,
   `tag` int(11) NOT NULL,
   `numero_patrimonio` int(11) NOT NULL,
+  `data_implantacao` date NOT NULL DEFAULT current_timestamp(),
   `id_modelo` int(11) NOT NULL,
   `id_laboratorio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `equipamento`
+-- Despejando dados para a tabela `equipamento`
 --
 
-INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `id_modelo`, `id_laboratorio`) VALUES
-(1, 895123, 8945214, 1, 1);
+INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `data_implantacao`, `id_modelo`, `id_laboratorio`) VALUES
+(1, 895123, 8945214, '2024-07-01', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `equipamento_modelo`
+-- Estrutura para tabela `equipamento_modelo`
 --
 
 CREATE TABLE `equipamento_modelo` (
@@ -102,47 +103,47 @@ CREATE TABLE `equipamento_modelo` (
   `equipamento` text NOT NULL,
   `marca` text NOT NULL,
   `criterio_aceitacao_calibracao` text NOT NULL,
-  `periodicidade_calibracao` int(11) NOT NULL,
-  `periodicidade_manutencao` int(11) NOT NULL,
-  `tipo` enum('A','D','-') NOT NULL DEFAULT '-',
+  `periodicidade_calibracao` int(11) NOT NULL COMMENT 'Anos',
+  `aviso_renovacao_calibracao` int(11) NOT NULL COMMENT 'Dias',
+  `periodicidade_manutencao` int(11) NOT NULL COMMENT 'Anos',
+  `tipo` enum('A','D') NOT NULL,
   `id_categoria` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `equipamento_modelo`
+-- Despejando dados para a tabela `equipamento_modelo`
 --
 
-INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
-(1, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 12, 24, 'D', NULL);
+INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `aviso_renovacao_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
+(1, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 1, 90, 2, 'D', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `evento`
+-- Estrutura para tabela `evento`
 --
 
 CREATE TABLE `evento` (
   `id` int(11) NOT NULL,
   `id_equipamento` int(11) NOT NULL,
-  `tipo` enum('Calibracao','Manutencao','Qualificacao','Checagem') NOT NULL,
+  `tipo` enum('Calibracao','Manutencao','Qualificacao','Verificacao') NOT NULL,
   `data_criacao` datetime NOT NULL DEFAULT current_timestamp(),
   `data_agendada` date NOT NULL,
   `descricao` text NOT NULL,
-  `status` enum('Aprovado','Pendente','Recusado') NOT NULL DEFAULT 'Pendente',
   `custo` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `evento`
+-- Despejando dados para a tabela `evento`
 --
 
-INSERT INTO `evento` (`id`, `id_equipamento`, `tipo`, `data_criacao`, `data_agendada`, `descricao`, `status`, `custo`) VALUES
-(1, 1, 'Calibracao', '2025-06-04 10:48:36', '2025-05-30', 'Vencimento da última calibração', 'Aprovado', '1299.00');
+INSERT INTO `evento` (`id`, `id_equipamento`, `tipo`, `data_criacao`, `data_agendada`, `descricao`, `custo`) VALUES
+(1, 1, 'Calibracao', '2025-06-04 10:48:36', '2025-05-30', 'Vencimento da última calibração', 1299.00);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `laboratorio`
+-- Estrutura para tabela `laboratorio`
 --
 
 CREATE TABLE `laboratorio` (
@@ -151,10 +152,10 @@ CREATE TABLE `laboratorio` (
   `sigla` varchar(10) NOT NULL,
   `bloco` varchar(5) NOT NULL,
   `sala` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `laboratorio`
+-- Despejando dados para a tabela `laboratorio`
 --
 
 INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
@@ -163,7 +164,7 @@ INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuario`
+-- Estrutura para tabela `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -176,36 +177,36 @@ CREATE TABLE `usuario` (
   `data_acesso` datetime DEFAULT NULL,
   `token` varchar(256) DEFAULT NULL,
   `data_expiracao` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `usuario`
+-- Despejando dados para a tabela `usuario`
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiracao`) VALUES
-(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, NULL, NULL, NULL, NULL),
-(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$rFcZvIx47jf783urzpS/oeLHj2S8dXAY.fwUS24OPoAb4wzA7Vzbq', 0, 1, '2025-06-04 10:25:04', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOjIsImV4cCI6MTc0OTA1NDMwNH0.hrYu-duWkaFkQ0k8jPLER6c02coQEFMQ9QIpVhCYpoA', '2025-06-04 16:25:04');
+(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, NULL, '2025-06-10 22:19:38', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IkhlbnJpcXVlIiwiYWRtaW4iOjEsImxhYm9yYXRvcmlvIjpudWxsLCJleHAiOjE3NDk2MTU1Nzh9.wFnlKU7Ux2ak_AEbryEmH3hoAHMsIpMhT28uWBtPs98', '2025-06-11 04:19:38'),
+(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$NcqD9yDsMFd72GF/yyrlgu9pJExXpveYhgpFu/cfciT1Ofrc0P7mu', 0, 1, '2025-06-05 20:36:13', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOm51bGwsImV4cCI6MTc0OTE3NzM3M30.xc5Ykyht4yfke_I-6PesR7cPz5IHvyxVtEygxx-NvEU', '2025-06-06 02:36:13');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices para tabela `categoria`
+-- Índices de tabela `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nome` (`nome`);
 
 --
--- Índices para tabela `certificado`
+-- Índices de tabela `certificado`
 --
 ALTER TABLE `certificado`
   ADD PRIMARY KEY (`id`),
   ADD KEY `certificado_evento` (`id_evento`);
 
 --
--- Índices para tabela `equipamento`
+-- Índices de tabela `equipamento`
 --
 ALTER TABLE `equipamento`
   ADD PRIMARY KEY (`id`),
@@ -214,7 +215,7 @@ ALTER TABLE `equipamento`
   ADD KEY `localizacao` (`id_laboratorio`);
 
 --
--- Índices para tabela `equipamento_modelo`
+-- Índices de tabela `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
   ADD PRIMARY KEY (`id`),
@@ -222,21 +223,21 @@ ALTER TABLE `equipamento_modelo`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices para tabela `evento`
+-- Índices de tabela `evento`
 --
 ALTER TABLE `evento`
   ADD PRIMARY KEY (`id`),
   ADD KEY `evento_equipamento` (`id_equipamento`);
 
 --
--- Índices para tabela `laboratorio`
+-- Índices de tabela `laboratorio`
 --
 ALTER TABLE `laboratorio`
   ADD PRIMARY KEY (`id`),
   ADD KEY `localizacao` (`bloco`);
 
 --
--- Índices para tabela `usuario`
+-- Índices de tabela `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
@@ -244,7 +245,7 @@ ALTER TABLE `usuario`
   ADD KEY `id_bloco` (`id_laboratorio`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -290,36 +291,36 @@ ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `certificado`
+-- Restrições para tabelas `certificado`
 --
 ALTER TABLE `certificado`
   ADD CONSTRAINT `certificado_evento` FOREIGN KEY (`id_evento`) REFERENCES `evento` (`id`);
 
 --
--- Limitadores para a tabela `equipamento`
+-- Restrições para tabelas `equipamento`
 --
 ALTER TABLE `equipamento`
   ADD CONSTRAINT `equipamento_equipamentoModelo` FOREIGN KEY (`id_modelo`) REFERENCES `equipamento_modelo` (`id`),
   ADD CONSTRAINT `equipamento_laboratorio` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
 
 --
--- Limitadores para a tabela `equipamento_modelo`
+-- Restrições para tabelas `equipamento_modelo`
 --
 ALTER TABLE `equipamento_modelo`
   ADD CONSTRAINT `equipamentoModelo_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
 
 --
--- Limitadores para a tabela `evento`
+-- Restrições para tabelas `evento`
 --
 ALTER TABLE `evento`
   ADD CONSTRAINT `evento_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`);
 
 --
--- Limitadores para a tabela `usuario`
+-- Restrições para tabelas `usuario`
 --
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_laboratorio` FOREIGN KEY (`id_laboratorio`) REFERENCES `laboratorio` (`id`);
