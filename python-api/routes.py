@@ -13,6 +13,7 @@ emdao = EquipamentoModeloDAO()
 evdao = EventoDAO()
 ldao = LaboratorioDAO()
 udao = UsuarioDAO()
+vdao = ViewDAO()
 
 @router.post("/login")
 async def login(request: Request):
@@ -298,3 +299,9 @@ async def atualizar_usuario(request: Request):
 async def atualizar_status_usuario(request: Request):
     dados = await request.json()
     return {"success": bool(udao.atualizar_status(dados['id']))}
+
+
+# Views
+@router.get("/disponibilidade")
+def buscar_disponibilidade():
+    return {"API": {"URI": "/api/disponibilidade", "METHOD": "GET"}, "DATA": vdao.listar_disponibilidade()}

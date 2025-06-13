@@ -14,22 +14,22 @@ class LaboratorioDAO:
         return l
 
     def inserir(self, laboratorio: Laboratorio) -> int:
-        sql = "INSERT INTO laboratorio (nome, sigla, bloco, sala) VALUES (%(nome)s, %(sigla)s, %(bloco)s, %(sala)s)"
+        sql = "INSERT INTO laboratorio (nome, sigla, id_bloco, sala) VALUES (%(nome)s, %(sigla)s, %(id_bloco)s, %(sala)s)"
         params = {
             'nome': laboratorio.nome,
             'sigla': laboratorio.sigla,
-            'bloco': laboratorio.bloco,
+            'id_bloco': laboratorio.id_bloco,
             'sala': laboratorio.sala
         }
         return self.db.insert(sql, params)
 
     def atualizar(self, laboratorio: Laboratorio) -> int:
-        sql = "UPDATE laboratorio SET nome = %(nome)s, sigla = %(sigla)s, bloco = %(bloco)s, sala = %(sala)s WHERE id = %(id)s"
+        sql = "UPDATE laboratorio SET nome = %(nome)s, sigla = %(sigla)s, id_bloco = %(id_bloco)s, sala = %(sala)s WHERE id = %(id)s"
         params = {
             'id': laboratorio.id,
             'nome': laboratorio.nome,
             'sigla': laboratorio.sigla,
-            'bloco': laboratorio.bloco,
+            'id_bloco': laboratorio.id_bloco,
             'sala': laboratorio.sala
         }
         return self.db.update(sql, params)

@@ -16,21 +16,24 @@ class EquipamentoDAO:
         return e
         
     def inserir(self, equipamento: Equipamento) -> int:
-        sql = "INSERT INTO equipamento (tag, numero_patrimonio, id_modelo, id_laboratorio) VALUES (%(tag)s, %(numero_patrimonio)s, %(id_modelo)s, %(id_laboratorio)s)"
+        sql = "INSERT INTO equipamento (tag, numero_patrimonio, data_implantacao, id_modelo, id_laboratorio) VALUES (%(tag)s, %(numero_patrimonio)s, %(data_implantacao)s, %(id_modelo)s, %(id_laboratorio)s)"
         params = {
             'tag': equipamento.tag,
             'numero_patrimonio': equipamento.numero_patrimonio,
+            'data_implantacao': equipamento.data_implantacao,
             'id_modelo': equipamento.id_modelo,
             'id_laboratorio': equipamento.id_laboratorio
         }
         return self.db.insert(sql, params)
 
     def atualizar(self, equipamento: Equipamento) -> int:
-        sql = " UPDATE equipamento SET tag = %(tag)s, numero_patrimonio = %(numero_patrimonio)s, id_modelo = %(id_modelo)s, id_laboratorio = %(id_laboratorio)s WHERE id = %(id)s"
+        sql = " UPDATE equipamento SET tag = %(tag)s, numero_patrimonio = %(numero_patrimonio)s, data_implantacao = %(data_implantacao)s, id_modelo = %(id_modelo)s, id_laboratorio = %(id_laboratorio)s WHERE id = %(id)s"
         params = {
             'id': equipamento.id,
             'tag': equipamento.tag,
             'numero_patrimonio': equipamento.numero_patrimonio,
+            
+            'data_implantacao': equipamento.data_implantacao,
             'id_modelo': equipamento.id_modelo,
             'id_laboratorio': equipamento.id_laboratorio
         }

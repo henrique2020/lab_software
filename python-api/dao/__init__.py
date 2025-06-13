@@ -6,6 +6,7 @@ from .EquipamentoModeloDAO import EquipamentoModeloDAO
 from .EventoDAO import EventoDAO
 from .LaboratorioDAO import LaboratorioDAO
 from .UsuarioDAO import UsuarioDAO
+from .ViewDAO import ViewDAO
 
 __all__ = [
     "BlocoDAO",
@@ -15,5 +16,6 @@ __all__ = [
     "EquipamentoModeloDAO",
     "EventoDAO",
     "LaboratorioDAO",
-    "UsuarioDAO"
+    "UsuarioDAO",
+    "ViewDAO"
 ]
