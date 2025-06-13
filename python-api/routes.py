@@ -20,9 +20,9 @@ async def login(request: Request):
     dados = await request.json()
     dados = {k: v.strip() if isinstance(v, str) else v for k, v in dados.items()}
     usuario = udao.buscar_por_email(dados['email'])
-    if not usuario.ativo:
+    if not usuario or not usuario.ativo:
         return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": False, "message": "Usuário não encontrado, entre em contato com o administrador"}
-    elif usuario and usuario.validate_pass(dados['senha']):
+    elif usuario.validate_pass(dados['senha']):
         usuario.token, usuario.data_acesso, usuario.data_expiracao = middleware.criar_token({
             "id": usuario.id,
             "nome": usuario.nome, 
