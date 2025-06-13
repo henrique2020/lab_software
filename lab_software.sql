@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/06/2025 às 00:49
+-- Tempo de geração: 13/06/2025 às 02:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -26,25 +26,51 @@ USE `lab_software`;
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `bloco`
+--
+
+CREATE TABLE `bloco` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(5) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `bloco`
+--
+
+INSERT INTO `bloco` (`id`, `nome`, `ativo`) VALUES
+(1, 'A', 1),
+(2, 'B', 1),
+(3, 'C', 1),
+(4, 'D', 1),
+(5, 'E', 1),
+(6, 'F', 1),
+(7, 'G', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `categoria`
 --
 
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL
+  `nome` varchar(100) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `categoria`
 --
 
-INSERT INTO `categoria` (`id`, `nome`) VALUES
-(1, 'Balança'),
-(2, 'Capela'),
-(3, 'Estufa'),
-(4, 'Prensa'),
-(5, 'Termometro'),
-(6, 'Vidraria');
+INSERT INTO `categoria` (`id`, `nome`, `ativo`) VALUES
+(1, 'Balança', 1),
+(2, 'Capela', 1),
+(3, 'Estufa', 1),
+(4, 'Prensa', 1),
+(5, 'Termometro', 1),
+(6, 'Vidraria', 1);
 
 -- --------------------------------------------------------
 
@@ -80,15 +106,16 @@ CREATE TABLE `equipamento` (
   `numero_patrimonio` int(11) NOT NULL,
   `data_implantacao` date NOT NULL DEFAULT current_timestamp(),
   `id_modelo` int(11) NOT NULL,
-  `id_laboratorio` int(11) NOT NULL
+  `id_laboratorio` int(11) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `equipamento`
 --
 
-INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `data_implantacao`, `id_modelo`, `id_laboratorio`) VALUES
-(1, 895123, 8945214, '2024-07-01', 1, 1);
+INSERT INTO `equipamento` (`id`, `tag`, `numero_patrimonio`, `data_implantacao`, `id_modelo`, `id_laboratorio`, `ativo`) VALUES
+(1, 895123, 8945214, '2024-07-01', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -107,15 +134,16 @@ CREATE TABLE `equipamento_modelo` (
   `aviso_renovacao_calibracao` int(11) NOT NULL COMMENT 'Dias',
   `periodicidade_manutencao` int(11) NOT NULL COMMENT 'Anos',
   `tipo` enum('A','D') NOT NULL,
-  `id_categoria` int(11) DEFAULT NULL
+  `id_categoria` int(11) DEFAULT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `equipamento_modelo`
 --
 
-INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `aviso_renovacao_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`) VALUES
-(1, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 1, 90, 2, 'D', NULL);
+INSERT INTO `equipamento_modelo` (`id`, `numero_patrimonio`, `identificacao`, `equipamento`, `marca`, `criterio_aceitacao_calibracao`, `periodicidade_calibracao`, `aviso_renovacao_calibracao`, `periodicidade_manutencao`, `tipo`, `id_categoria`, `ativo`) VALUES
+(1, 123456, 'Multímetro', 'Multímetro Digital', 'Fluke', '±2%', 1, 90, 2, 'D', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -150,16 +178,17 @@ CREATE TABLE `laboratorio` (
   `id` int(11) NOT NULL,
   `nome` text NOT NULL,
   `sigla` varchar(10) NOT NULL,
-  `bloco` varchar(5) NOT NULL,
-  `sala` varchar(4) NOT NULL
+  `id_bloco` int(11) NOT NULL,
+  `sala` varchar(4) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `laboratorio`
 --
 
-INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `bloco`, `sala`) VALUES
-(1, 'Laboratório de Ensaios Mecânicos', 'LAMEC', 'G', '100');
+INSERT INTO `laboratorio` (`id`, `nome`, `sigla`, `id_bloco`, `sala`, `ativo`) VALUES
+(1, 'Laboratório de Ensaios Mecânicos', 'LAMEC', 7, '100', 1);
 
 -- --------------------------------------------------------
 
@@ -176,20 +205,27 @@ CREATE TABLE `usuario` (
   `id_laboratorio` int(11) DEFAULT NULL,
   `data_acesso` datetime DEFAULT NULL,
   `token` varchar(256) DEFAULT NULL,
-  `data_expiracao` datetime DEFAULT NULL
+  `data_expiracao` datetime DEFAULT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiracao`) VALUES
-(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, NULL, '2025-06-10 22:19:38', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IkhlbnJpcXVlIiwiYWRtaW4iOjEsImxhYm9yYXRvcmlvIjpudWxsLCJleHAiOjE3NDk2MTU1Nzh9.wFnlKU7Ux2ak_AEbryEmH3hoAHMsIpMhT28uWBtPs98', '2025-06-11 04:19:38'),
-(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$NcqD9yDsMFd72GF/yyrlgu9pJExXpveYhgpFu/cfciT1Ofrc0P7mu', 0, 1, '2025-06-05 20:36:13', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOm51bGwsImV4cCI6MTc0OTE3NzM3M30.xc5Ykyht4yfke_I-6PesR7cPz5IHvyxVtEygxx-NvEU', '2025-06-06 02:36:13');
+INSERT INTO `usuario` (`id`, `nome`, `email`, `senha`, `admin`, `id_laboratorio`, `data_acesso`, `token`, `data_expiracao`, `ativo`) VALUES
+(1, 'Henrique', 'hbh@email.com', '$2b$12$AVR01rsrH7hPYAZlDAIWLu59SxA0LFm84YWKS15lxtXIHXZ0V7FT2', 1, NULL, '2025-06-12 20:28:29', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IkhlbnJpcXVlIiwiYWRtaW4iOjEsImxhYm9yYXRvcmlvIjpudWxsLCJleHAiOjE3NDk3ODE3MDl9.X-zulPtf2AwOTmQw-ukpUC-jvl-e4rsK5dvDKNx_Hgo', '2025-06-13 02:28:29', 1),
+(2, 'Marial de Tal', 'mdt@email.com', '$2b$12$NcqD9yDsMFd72GF/yyrlgu9pJExXpveYhgpFu/cfciT1Ofrc0P7mu', 0, 1, '2025-06-05 20:36:13', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhbCBkZSBUYWwiLCJhZG1pbiI6MCwibGFib3JhdG9yaW8iOm51bGwsImV4cCI6MTc0OTE3NzM3M30.xc5Ykyht4yfke_I-6PesR7cPz5IHvyxVtEygxx-NvEU', '2025-06-06 02:36:13', 0);
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `bloco`
+--
+ALTER TABLE `bloco`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `categoria`
@@ -234,7 +270,7 @@ ALTER TABLE `evento`
 --
 ALTER TABLE `laboratorio`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `localizacao` (`bloco`);
+  ADD UNIQUE KEY `id_bloco` (`id_bloco`,`sala`);
 
 --
 -- Índices de tabela `usuario`
@@ -247,6 +283,12 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `bloco`
+--
+ALTER TABLE `bloco`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `categoria`
@@ -318,6 +360,12 @@ ALTER TABLE `equipamento_modelo`
 --
 ALTER TABLE `evento`
   ADD CONSTRAINT `evento_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamento` (`id`);
+
+--
+-- Restrições para tabelas `laboratorio`
+--
+ALTER TABLE `laboratorio`
+  ADD CONSTRAINT `laboratorio_bloco` FOREIGN KEY (`id_bloco`) REFERENCES `bloco` (`id`);
 
 --
 -- Restrições para tabelas `usuario`

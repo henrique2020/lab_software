@@ -1,15 +1,55 @@
 {
 	"info": {
-		"_postman_id": "8e5e7955-9c46-48d1-8070-54822705f6b7",
+		"_postman_id": "04cb77b6-5b04-4921-ab28-cd96fa53bfff",
 		"name": "Lab Software - Python",
 		"description": "Chamadas em API para GET (consulta) e POST (cadastro/atualização)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17637127"
+		"_exporter_id": "44220469"
 	},
 	"item": [
 		{
 			"name": "GET",
 			"item": [
+				{
+					"name": "Bloco",
+					"item": [
+						{
+							"name": "GET - Bloco (ID)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}api/bloco/2",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"bloco",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET - Blocos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api}}api/blocos",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"blocos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "Categoria",
 					"item": [
@@ -53,41 +93,6 @@
 				{
 					"name": "Certificado",
 					"item": [
-						{
-							"name": "GET - Certificado (ID)",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{api}}api/certificado/2",
-									"host": [
-										"{{api}}api"
-									],
-									"path": [
-										"certificado",
-										"2"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET - Certificados",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{api}}api/certificados",
-									"host": [
-										"{{api}}api"
-									],
-									"path": [
-										"certificados"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "GET - Certificado (ID)",
 							"request": {
@@ -169,12 +174,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{api}}api/equipamento/1",
+									"raw": "{{api}}api/modelo/1",
 									"host": [
 										"{{api}}api"
 									],
 									"path": [
-										"equipamento",
+										"modelo",
 										"1"
 									]
 								}
@@ -187,12 +192,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{api}}api/equipamentos",
+									"raw": "{{api}}api/modelos",
 									"host": [
 										"{{api}}api"
 									],
 									"path": [
-										"equipamentos"
+										"modelos"
 									]
 								}
 							},
@@ -345,6 +350,92 @@
 			"name": "POST",
 			"item": [
 				{
+					"name": "Bloco",
+					"item": [
+						{
+							"name": "POST - Bloco",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Capo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/bloco",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"bloco"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Bloco (Att)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 7,\r\n    \"nome\": \"Ligas\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/bloco/atualizar",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"bloco",
+										"atualizar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Bloco (Att - Status)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/bloco/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"bloco",
+										"atualizar",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Categoria",
 					"item": [
 						{
@@ -395,6 +486,34 @@
 									"path": [
 										"categoria",
 										"atualizar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Categoria (Att - Status)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/categoria/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"categoria",
+										"atualizar",
+										"status"
 									]
 								}
 							},
@@ -523,7 +642,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"tag\": \"895123\",\r\n    \"numero_patrimonio\": \"8945214\",\r\n    \"id_modelo\": \"1\",\r\n    \"id_laboratorio\": \"1\"\r\n}",
+									"raw": "{\r\n    \"tag\": \"895123\",\r\n    \"numero_patrimonio\": \"8945214\",\r\n    \"data_implantacao\": \"2024-07-01\",\r\n    \"id_modelo\": 1,\r\n    \"id_laboratorio\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -570,13 +689,41 @@
 							"response": []
 						},
 						{
+							"name": "POST - Equipamento (Att - Status)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/equipamento/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"equipamento",
+										"atualizar",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST - Equipamento (Modelo)",
 							"request": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"numero_patrimonio\": 123456,\r\n    \"identificacao\": \"Multímetro\",\r\n    \"equipamento\": \"Multímetro Digital\",\r\n    \"marca\": \"Fluke\",\r\n    \"criterio_aceitacao_calibracao\": \"±2%\",\r\n    \"periodicidade_calibracao\": \"12\",\r\n    \"periodicidade_manutencao\": \"24\",\r\n    \"tipo\": \"D\",\r\n    \"id_categoria\": null\r\n}",
+									"raw": "{\r\n    \"numero_patrimonio\": 145451,\r\n    \"identificacao\": \"Multímetro\",\r\n    \"equipamento\": \"Multímetro Digital\",\r\n    \"marca\": \"Fluke\",\r\n    \"criterio_aceitacao_calibracao\": \"±2%\",\r\n    \"periodicidade_calibracao\": 5,\r\n    \"aviso_renovacao_calibracao\": 90,\r\n    \"periodicidade_manutencao\": 3,\r\n    \"tipo\": \"D\",\r\n    \"id_categoria\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -617,6 +764,34 @@
 									"path": [
 										"modelo",
 										"atualizar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Equipamento (Modelo) (Att - Status)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/modelo/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"modelo",
+										"atualizar",
+										"status"
 									]
 								}
 							},
@@ -747,6 +922,44 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "POST - Laboratório (Att - Status)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/laboratorio/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"laboratorio",
+										"atualizar",
+										"status"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -817,6 +1030,40 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "POST - Usuário (Att - Status)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/usuario/atualizar/status",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"usuario",
+										"atualizar",
+										"status"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -836,7 +1083,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"mdt@email.com\",\r\n    \"senha\": \"teste\"\r\n}",
+							"raw": "{\r\n    \"email\": \"hbh@email.com\",\r\n    \"senha\": \"teste\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
