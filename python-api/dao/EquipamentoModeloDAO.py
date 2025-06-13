@@ -2,6 +2,7 @@ from dao.Database import Database
 from model.EquipamentoModelo import EquipamentoModelo
 
 from dao.CategoriaDAO import CategoriaDAO
+
 class EquipamentoModeloDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
@@ -53,3 +54,7 @@ class EquipamentoModeloDAO:
     def listar_todos(self) -> list[EquipamentoModelo]:
         resultados = self.db.select("SELECT * FROM equipamento_modelo ORDER BY numero_patrimonio")
         return [self._buscar_objetos(linha) for linha in resultados]
+
+    def atualizar_status(self, id: int) -> bool:
+        sql = "UPDATE equipamento_modelo SET ativo = CASE WHEN ativo = 1 THEN 0 ELSE 1 END WHERE id = %(id)s"
+        return self.db.update(sql, {'id': id})

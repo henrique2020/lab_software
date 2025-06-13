@@ -2,6 +2,7 @@ from dao.Database import Database
 from model.Evento import Evento
 
 from dao.EquipamentoDAO import EquipamentoDAO
+
 class EventoDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()

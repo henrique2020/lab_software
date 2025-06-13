@@ -61,3 +61,7 @@ class UsuarioDAO:
     def listar_por_laboratorio(self, id_laboratorio: int) -> list[Usuario]:
         resultados = self.db.select("SELECT * FROM usuario WHERE id_laboratorio = %(id)s", {'id': id_laboratorio})
         return [self._buscar_objetos(linha) for linha in resultados]
+
+    def atualizar_status(self, id: int) -> bool:
+        sql = "UPDATE usuario SET ativo = CASE WHEN ativo = 1 THEN 0 ELSE 1 END WHERE id = %(id)s"
+        return self.db.update(sql, {'id': id})

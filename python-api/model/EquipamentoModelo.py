@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from model.Categoria import Categoria
+
 @dataclass
 class EquipamentoModelo:
     id: Optional[int]
@@ -15,3 +16,4 @@ class EquipamentoModelo:
     periodicidade_manutencao: int   #Anos
     tipo: str  #A', 'D'
     id_categoria: Optional[int]|Optional[Categoria]
+    ativo: Optional[bool] = True

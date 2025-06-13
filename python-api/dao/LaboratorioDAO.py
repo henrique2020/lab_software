@@ -1,9 +1,17 @@
 from dao.Database import Database
 from model.Laboratorio import Laboratorio
 
+from dao.BlocoDAO import BlocoDAO
+
 class LaboratorioDAO:
     def __init__(self, db: Database | None = None):
         self.db = db or Database()
+        
+    def _buscar_objetos(self, linha: dict) -> Laboratorio:
+        l = Laboratorio(**linha)
+        l.id_bloco = BlocoDAO(self.db).buscar_por_id(l.id_bloco)
+        
+        return l
 
     def inserir(self, laboratorio: Laboratorio) -> int:
         sql = "INSERT INTO laboratorio (nome, sigla, bloco, sala) VALUES (%(nome)s, %(sigla)s, %(bloco)s, %(sala)s)"
@@ -38,4 +46,8 @@ class LaboratorioDAO:
     def listar_todos(self) -> list[Laboratorio]:
         sql = "SELECT * FROM laboratorio ORDER BY nome"
         resultados = self.db.select(sql)
-        return [Laboratorio(**linha) for linha in resultados]
+        return [self._buscar_objetos(linha) for linha in resultados]
+
+    def atualizar_status(self, id: int) -> bool:
+        sql = "UPDATE laboratorio SET ativo = CASE WHEN ativo = 1 THEN 0 ELSE 1 END WHERE id = %(id)s"
+        return self.db.update(sql, {'id': id})

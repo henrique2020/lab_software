@@ -16,6 +16,7 @@ class Usuario:
     data_acesso: Optional[datetime] = None
     token: Optional[str] = None
     data_expiracao: Optional[datetime] = None
+    ativo: Optional[bool] = True
 
     def criptografa(self):
         self.senha = bcrypt.hashpw(self.senha.encode(), bcrypt.gensalt()).decode()

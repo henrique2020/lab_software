@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 @dataclass
-class Categoria:
+class Bloco:
     id: Optional[int]
     nome: str
     ativo: Optional[bool] = True

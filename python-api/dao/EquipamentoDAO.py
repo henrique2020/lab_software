@@ -54,3 +54,7 @@ class EquipamentoDAO:
     def listar_por_laboratorio(self, id_laboratorio: int) -> list[Equipamento]:
         resultados = self.db.select("SELECT * FROM equipamento WHERE id_laboratorio = %(id_laboratorio)s ORDER BY numero_patrimonio", {'id_laboratorio': id_laboratorio})
         return [self._buscar_objetos(linha) for linha in resultados]
+
+    def atualizar_status(self, id: int) -> bool:
+        sql = "UPDATE equipamento SET ativo = CASE WHEN ativo = 1 THEN 0 ELSE 1 END WHERE id = %(id)s"
+        return self.db.update(sql, {'id': id})

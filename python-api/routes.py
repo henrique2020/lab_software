@@ -5,6 +5,7 @@ from model import *
 
 router = APIRouter()
 
+bdao = BlocoDAO()
 cadao = CategoriaDAO()
 cedao = CertificadoDAO()
 eqdao = EquipamentoDAO()
@@ -18,7 +19,9 @@ async def login(request: Request):
     dados = await request.json()
     dados = {k: v.strip() if isinstance(v, str) else v for k, v in dados.items()}
     usuario = udao.buscar_por_email(dados['email'])
-    if usuario and usuario.validate_pass(dados['senha']):
+    if not usuario.ativo:
+        return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": False, "message": "Usuário não encontrado, entre em contato com o administrador"}
+    elif usuario and usuario.validate_pass(dados['senha']):
         usuario.token, usuario.data_acesso, usuario.data_expiracao = middleware.criar_token({
             "id": usuario.id,
             "nome": usuario.nome, 
@@ -30,6 +33,35 @@ async def login(request: Request):
             return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": True, "token": usuario.token, 'payload': middleware.verificar_token(usuario.token)}
     
     return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": False, "message": "Usuário e/ou senha incorreto"}
+
+
+# Bloco
+@router.get("/bloco/{id}")
+def buscar_bloco(id: int):
+    return {"API": {"URI": f"/api/bloco/{id}", "METHOD": "GET"}, "DATA": bdao.buscar_por_id(id)}
+
+@router.get("/blocos")
+def listar_blocos():
+    return {"API": {"URI": "/api/blocos", "METHOD": "GET"}, "DATA": bdao.listar_todos()}
+
+@router.post("/bloco")
+async def inserir_bloco(request: Request):
+    dados = await request.json()
+    bloco = Bloco(None, **dados)
+    
+    return {"success": bool(bdao.inserir(bloco))}
+
+@router.post("/bloco/atualizar")
+async def atualizar_bloco(request: Request):
+    dados = await request.json()
+    bloco = Bloco(**dados)
+    
+    return {"success": bool(bdao.atualizar(bloco))}
+
+@router.post("/bloco/atualizar/status")
+async def atualizar_status_bloco(request: Request):
+    dados = await request.json()
+    return {"success": bool(bdao.atualizar_status(dados['id']))}
 
 
 # Categoria
@@ -54,6 +86,11 @@ async def atualizar_categoria(request: Request):
     categoria = Categoria(**dados)
     
     return {"success": bool(cadao.atualizar(categoria))}
+
+@router.post("/categoria/atualizar/status")
+async def atualizar_status_categoria(request: Request):
+    dados = await request.json()
+    return {"success": bool(cadao.atualizar_status(dados['id']))}
 
 
 # Certificado
@@ -112,6 +149,11 @@ async def atualizar_equipamento(request: Request):
     dados = await request.json()
     equipamento = Equipamento(**dados)
     return {"success": bool(eqdao.atualizar(equipamento))}
+
+@router.post("/equipamento/atualizar/status")
+async def atualizar_status_equipamento(request: Request):
+    dados = await request.json()
+    return {"success": bool(eqdao.atualizar_status(dados['id']))}
 
 
 # Evento
@@ -176,6 +218,11 @@ async def atualizar_equipamento_modelo(request: Request):
     equipamento = EquipamentoModelo(**dados)
     return {"success": bool(emdao.atualizar(equipamento))}
 
+@router.post("/modelo/atualizar/status")
+async def atualizar_status_modelo(request: Request):
+    dados = await request.json()
+    return {"success": bool(emdao.atualizar_status(dados['id']))}
+
 
 # Laboratório
 @router.get("/laboratorio/{id}")
@@ -209,6 +256,10 @@ async def atualizar_laboratorio(request: Request):
     laboratorio = Laboratorio(**dados)
     return {"success": bool(ldao.atualizar(laboratorio))}
 
+@router.post("/laboratorio/atualizar/status")
+async def atualizar_status_laboratorio(request: Request):
+    dados = await request.json()
+    return {"success": bool(ldao.atualizar_status(dados['id']))}
 
 # Usuário
 @router.get("/usuario/{id}")
@@ -242,3 +293,8 @@ async def atualizar_usuario(request: Request):
     usuario = Usuario(**dados)
     usuario.criptografa()
     return {"success": bool(udao.atualizar(usuario))}
+
+@router.post("/usuario/atualizar/status")
+async def atualizar_status_usuario(request: Request):
+    dados = await request.json()
+    return {"success": bool(udao.atualizar_status(dados['id']))}

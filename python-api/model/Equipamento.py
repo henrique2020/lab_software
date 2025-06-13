@@ -13,3 +13,4 @@ class Equipamento:
     data_implantacao: date
     id_modelo: int|EquipamentoModelo
     id_laboratorio: int|Laboratorio
+    ativo: Optional[bool] = True

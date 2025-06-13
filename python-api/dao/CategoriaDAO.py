@@ -33,3 +33,7 @@ class CategoriaDAO:
         sql = "SELECT * FROM categoria ORDER BY nome"
         resultados = self.db.select(sql)
         return [Categoria(**linha) for linha in resultados]
+    
+    def atualizar_status(self, id: int) -> bool:
+        sql = "UPDATE categoria SET ativo = CASE WHEN ativo = 1 THEN 0 ELSE 1 END WHERE id = %(id)s"
+        return self.db.update(sql, {'id': id})

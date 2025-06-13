@@ -1,3 +1,4 @@
+from .BlocoDAO import BlocoDAO
 from .CategoriaDAO import CategoriaDAO
 from .CertificadoDAO import CertificadoDAO
 from .EquipamentoDAO import EquipamentoDAO
@@ -7,6 +8,7 @@ from .LaboratorioDAO import LaboratorioDAO
 from .UsuarioDAO import UsuarioDAO
 
 __all__ = [
+    "BlocoDAO",
     "CategoriaDAO",
     "CertificadoDAO",
     "EquipamentoDAO",
