@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d8e166e5-ba74-4c5a-b25f-628915a5b7f2",
+		"_postman_id": "8243124f-9e7b-41df-9cba-ead4f80b5527",
 		"name": "Lab Software - Python",
 		"description": "Chamadas em API para GET (consulta) e POST (cadastro/atualização)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17637127"
+		"_exporter_id": "44220469"
 	},
 	"item": [
 		{
@@ -571,7 +571,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 213,\r\n    \"data\": \"2025-05-30\",\r\n    \"orgao_expedidor\": \"FUVEST\",\r\n    \"arquivo\": \"213-fuvest.pdf\"\r\n}",
+									"raw": "{\r\n    \"id_evento\": 1,\r\n    \"numero\": 199,\r\n    \"data\": \"2025-05-30\",\r\n    \"orgao_expedidor\": \"FUVEST\",\r\n    \"arquivo\": null\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -998,7 +998,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Administrador\",\r\n    \"email\": \"admin@email.com\",\r\n    \"senha\": \"teste\",\r\n    \"admin\": true\r\n}",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Administrador\",\r\n    \"email\": \"admin@email.com\",\r\n    \"senha\": null,\r\n    \"admin\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1013,6 +1013,40 @@
 									"path": [
 										"usuario",
 										"atualizar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST - Usuário (Att - Senha)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"senha\": \"teste\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}api/usuario/atualizar/senha",
+									"host": [
+										"{{api}}api"
+									],
+									"path": [
+										"usuario",
+										"atualizar",
+										"senha"
 									]
 								}
 							},
@@ -1070,7 +1104,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"hbh@email.com\",\r\n    \"senha\": \"teste\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@email.com\",\r\n    \"senha\": \"teste\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

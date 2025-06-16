@@ -24,14 +24,20 @@ class UsuarioDAO:
         })
 
     def atualizar(self, usuario: Usuario) -> int:
-        sql = "UPDATE usuario SET nome = %(nome)s, email = %(email)s, senha = %(senha)s, admin = %(admin)s, id_laboratorio = %(id_laboratorio)s WHERE id = %(id)s"
+        sql = "UPDATE usuario SET nome = %(nome)s, email = %(email)s, admin = %(admin)s, id_laboratorio = %(id_laboratorio)s WHERE id = %(id)s"
         return self.db.update(sql, {
             'id': usuario.id,
             'nome': usuario.nome,
             'email': usuario.email,
-            'senha': usuario.senha,
             'admin': usuario.admin,
             'id_laboratorio': usuario.id_laboratorio
+        })
+        
+    def atualizar_senha(self, usuario: Usuario) -> int:
+        sql = "UPDATE usuario SET senha = %(senha)s WHERE id = %(id)s"
+        return self.db.update(sql, {
+            'id': usuario.id,
+            'senha': usuario.senha,
         })
     
     def atualizar_token(self, usuario: Usuario) -> int:

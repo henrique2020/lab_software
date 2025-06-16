@@ -22,7 +22,7 @@ async def login(request: Request):
     usuario = udao.buscar_por_email(dados['email'])
     if not usuario or not usuario.ativo:
         return {"API": {"URI": "/api/login", "METHOD": "POST"}, "success": False, "message": "Usuário não encontrado, entre em contato com o administrador"}
-    elif usuario.validate_pass(dados['senha']):
+    elif usuario.valida_senha(dados['senha']):
         usuario.token, usuario.data_acesso, usuario.data_expiracao = middleware.criar_token({
             "id": usuario.id,
             "nome": usuario.nome, 
@@ -292,8 +292,14 @@ async def inserir_usuario(request: Request):
 async def atualizar_usuario(request: Request):
     dados = await request.json()
     usuario = Usuario(**dados)
-    usuario.criptografa()
     return {"success": bool(udao.atualizar(usuario))}
+
+@router.post("/usuario/atualizar/senha")
+async def atualizar_usuario(request: Request):
+    dados = await request.json()
+    usuario = Usuario(dados['id'], '', '', dados['senha'])
+    usuario.criptografa()
+    return {"success": bool(udao.atualizar_senha(usuario))}
 
 @router.post("/usuario/atualizar/status")
 async def atualizar_status_usuario(request: Request):

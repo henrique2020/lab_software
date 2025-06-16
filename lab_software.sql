@@ -86,7 +86,7 @@ CREATE TABLE `certificado` (
   `numero` int(11) NOT NULL,
   `data` date NOT NULL,
   `orgao_expedidor` text NOT NULL,
-  `arquivo` text NOT NULL
+  `arquivo` text NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
