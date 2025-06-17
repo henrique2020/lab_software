@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8243124f-9e7b-41df-9cba-ead4f80b5527",
+		"_postman_id": "849cd26e-8d6e-44c3-9347-50b954967113",
 		"name": "Lab Software - Python",
 		"description": "Chamadas em API para GET (consulta) e POST (cadastro/atualização)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -353,30 +353,31 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{api}}api/usuario/1",
+									"raw": "{{api}}api/disponibilidade/",
 									"host": [
 										"{{api}}api"
 									],
 									"path": [
-										"usuario",
-										"1"
+										"disponibilidade",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "GET - Usuários",
+							"name": "GET - Avisos",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{api}}api/usuarios",
+									"raw": "{{api}}api/aviso/",
 									"host": [
 										"{{api}}api"
 									],
 									"path": [
-										"usuarios"
+										"aviso",
+										""
 									]
 								}
 							},

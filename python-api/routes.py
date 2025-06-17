@@ -311,3 +311,13 @@ async def atualizar_status_usuario(request: Request):
 @router.get("/disponibilidade")
 def buscar_disponibilidade():
     return {"API": {"URI": "/api/disponibilidade", "METHOD": "GET"}, "DATA": vdao.listar_disponibilidade()}
+
+# Views
+@router.get("/aviso")
+def buscar_disponibilidade(request: Request):
+    if request.state.token['admin']: 
+        dados = vdao.avisos_certifiado()
+    else: 
+        dados = vdao.avisos_certifiado(request.state.token['laboratorio'])
+        
+    return {"API": {"URI": "/api/aviso", "METHOD": "GET"}, "DATA": dados}

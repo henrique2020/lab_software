@@ -41,7 +41,7 @@ class LaboratorioDAO:
     def buscar_por_id(self, id_: int) -> Laboratorio | None:
         sql = "SELECT * FROM laboratorio WHERE id = %(id)s"
         resultado = self.db.select(sql, {'id': id_})
-        return Laboratorio(**resultado[0]) if resultado else None
+        return self._buscar_objetos(resultado[0]) if resultado else None
     
     def listar_todos(self) -> list[Laboratorio]:
         sql = "SELECT * FROM laboratorio ORDER BY nome"
